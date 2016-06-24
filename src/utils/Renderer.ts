@@ -29,4 +29,10 @@ export default class GameRenderer
         log.trace("Removing something from main container.");
         this.mainContainer.removeChild(sprite);
     }
+    
+    public render()
+    {
+        this.gameRenderer.render(this.mainContainer);
+    }
+    
 }
