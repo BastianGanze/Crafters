@@ -8,28 +8,12 @@
     <script src="libs/preloadjs-0.6.2.combined.js"></script>
     <script src="libs/soundjs-0.6.2.combined.js"></script>
     <script src="libs/pixi.js"></script>
+    <script src="libs/socket.io.js"></script>
     <script src="build/build-0.0.1.js"></script>
     <style type="text/css" rel="stylesheet">
         body, html{margin:0; padding:0;}
     </style>
 </head>
 <body>
-
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-        socket.emit("join", "foo bar");
-
-        socket.on('login', function (data) {
-            console.log("connection established, you are in team " + data.team);
-        });
-
-        socket.on("keep alive", function (data) {
-            console.log(data);
-            socket.emit("keep alive", "pong");
-        })
-
-    </script>
 </body>
 </html>

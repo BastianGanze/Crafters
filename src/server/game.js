@@ -19,7 +19,7 @@ class Game {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
 
-        console.log(`delta: ${deltaTime}`);
+
         const currClients = this.connectionManager.clients;
         for (let i = 0; i < currClients.length; i++) {
             currClients[i].emit("keep alive", "ping");
