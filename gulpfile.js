@@ -30,7 +30,7 @@ gulp.task('watch', ['transpile'], function() {
     gulp.watch(paths.src+'**/*.ts', ['watchify']);
 });
 
-gulp.task("server", ["transpile"], function () {
+gulp.task("server", function () {
    nodemon({
        script: "src/server/main.js",
        ext: 'js'

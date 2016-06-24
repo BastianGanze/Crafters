@@ -1,3 +1,5 @@
+'use strict';
+
 const ConnManager = require("./conn_manager");
 
 class Game {
