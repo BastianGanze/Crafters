@@ -18,4 +18,5 @@ export class Config{
     public static STAGE_WIDTH: number = 1280;
     public static STAGE_HEIGHT: number = 720;
     public static BG_COLOR: number = 0x6495ED;
+    public static WS_DOMAIN: string = 'http://localhost:3000';
 }

@@ -18,8 +18,9 @@ class Game {
     update() {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
-
+        
         //console.log(`delta: ${deltaTime}`);
+
         const currClients = this.connectionManager.clients;
         const currEvents = this.connectionManager.events;
         for (let i = 0; i < currClients.length; i++) {
