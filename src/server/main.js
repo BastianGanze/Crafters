@@ -1,0 +1,15 @@
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+var Game = require("./game");
+
+app.use(express.static(__dirname + '/../../'));
+
+const port = 3000;
+server.listen(port, function () {
+    console.log('Server listening at port %d', port);
+});
+
+var game = new Game(io);
