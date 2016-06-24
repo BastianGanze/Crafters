@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify'),
+    nodemon = require("nodemon"),
     paths = {src: "src/", build:"build/", tmp:"tmp/"},
     mainFile = "start.ts",
     version = "0.0.1";
@@ -27,6 +28,13 @@ gulp.task('watchify', transpile(watchifyBundler));
 
 gulp.task('watch', ['transpile'], function() {
     gulp.watch(paths.src+'**/*.ts', ['watchify']);
+});
+
+gulp.task("server", ["transpile"], function () {
+   nodemon({
+       script: "src/server/main.js",
+       ext: 'js'
+   })
 });
 
 gulp.task('default', ['transpile']);
