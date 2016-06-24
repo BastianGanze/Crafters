@@ -26,6 +26,8 @@ export module Input
         protected customBindings : {[id: number] : () => number;}
         protected xAxisCallback : () => number;
         protected yAxisCallback : () => number;
+        protected mouseX : number;
+        protected mouseY : number;
 
         constructor()
         {
@@ -35,6 +37,12 @@ export module Input
             this.keyBindings = {};
             this.keyPressedMap = {};
             this.customBindings = {};
+
+            //mouse movement
+            $(document).on('mousemove',function(e){
+                this.mouseX = e.pageX;
+                this.mouseY = e.pageY;
+            }.bind(this));
 
             //Setting some standard callback functions for x and y axis
             this.xAxisCallback = function(){
@@ -78,6 +86,17 @@ export module Input
         public getYAxis() : number
         {
             return this.yAxisCallback();
+        }
+
+
+        public getMouseX() : number
+        {
+            return this.mouseX;
+        }
+
+        public getMouseY() : number
+        {
+            return this.mouseY;
         }
 
         /**
