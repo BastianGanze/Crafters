@@ -28,7 +28,11 @@
         socket.on("keep alive", function (data) {
             console.log(data);
             socket.emit("keep alive", "pong");
-        })
+        });
+
+        document.addEventListener("click", function () {
+           socket.emit("mouse event", "click");
+        });
 
     </script>
 </body>
