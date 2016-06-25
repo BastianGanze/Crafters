@@ -23,7 +23,7 @@ export default class Map{
         for(var i = 0; i < 64; i++){
             this.tyleMap[i] = [];
             for(var j = 0; j < 64; j++){
-                this.tyleMap[i][j] = new Tyle(new PIXI.Texture(this.baseTexture), i * 16, j * 16);
+                this.tyleMap[i][j] = new Tyle(this.baseTexture, i * 16, j * 16);
                 renderer.addToMainContainer(this.tyleMap[i][j].getSprite());
             }
         }
@@ -34,7 +34,7 @@ export default class Map{
         for(var i = 0; i < 64; i++){
             for(var j = 0; j < 64; j++){
                 renderer.removeFromMainContainer(this.tyleMap[i][j].getSprite());
-                this.tyleMap[i][j].setNewTexture(new PIXI.Texture(this.baseTexture));
+                this.tyleMap[i][j].setNewTexture(this.baseTexture);
                 renderer.addToMainContainer(this.tyleMap[i][j].getSprite());
             }
         }

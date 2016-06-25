@@ -1,23 +1,28 @@
 "use strict";
 
-class Player{
+class Player {
 
-    constructor(id, name, team, collisionObject)
+    constructor(id, socket, name, team, collisionObject)
     {
         this.id = id;
         this.name = name;
         this.team = team;
         this.collisionObject = collisionObject;
+        this.socket = socket;
+        this.events = [];
     }
 }
 
-class PlayerManager{
+class PlayerManager {
 
     constructor(world)
     {
         this.players = new Map();
         this.world = world;
         this.playerCount = 0;
+
+        this.redTeamCount = 0;
+        this.blueTeamCount = 0;
     }
 
     getPlayerAsJson(player)
@@ -35,12 +40,12 @@ class PlayerManager{
 
     getOtherPlayers(player)
     {
-        var players = [];
-        for(var id in this.players)
+        let players = [];
+        for(let id of this.players.keys())
         {
             if(id !== player.id)
             {
-                players.push(this.players[id]);
+                players.push(this.players.get(id));
             }
         }
 
@@ -53,11 +58,20 @@ class PlayerManager{
         return this.playerCount;
     }
 
-    createPlayer(name, team, position, radius)
+    createPlayer(name, socket, position, radius)
     {
+        let team = "";
+        if (this.redTeamCount > this.blueTeamCount) {
+            this.blueTeamCount++;
+            team = "blue";
+        } else {
+            this.redTeamCount++;
+            team = "red";
+        }
+
         var uId = this.getUniqueId(),
             playerCollider = this.world.createPlayerCollider(position, radius),
-            player = new Player(uId, name, team, playerCollider);
+            player = new Player(uId, socket, name, team, playerCollider);
 
         this.players.set(uId, player);
 
@@ -66,7 +80,10 @@ class PlayerManager{
 
     removePlayer(player)
     {
-        this.players.delete[player.id];
+        return this.players.delete[player.id];
     }
 
 }
+
+module.exports = Player;
+module.exports = PlayerManager;

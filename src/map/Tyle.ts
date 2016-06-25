@@ -4,17 +4,21 @@ import GameRenderer from "../utils/Renderer";
 export default class MapHandler{
 
     private tyleSprite : PIXI.Sprite;
+    private x: number;
+    private y: number;
 
-    constructor(texture: PIXI.Texture, positionX: number, positionY: number)
+    constructor(baseTexture: PIXI.BaseTexture, positionX: number, positionY: number)
     {
-        this.tyleSprite = new PIXI.Sprite(texture);
-        this.tyleSprite.position.x = positionX;
-        this.tyleSprite.position.y = positionY;
+        this.x = positionX;
+        this.y = positionY;
+        this.tyleSprite = new PIXI.Sprite(new PIXI.Texture(baseTexture, new PIXI.Rectangle(0,0,16,16)));
+        this.tyleSprite.position.x = this.x;
+        this.tyleSprite.position.y = this.y;
     }
 
-    public setNewTexture(texture: PIXI.Texture) : void
+    public setNewTexture(baseTexture: PIXI.BaseTexture) : void
     {
-        this.tyleSprite.texture = texture;
+        this.tyleSprite.texture = new PIXI.Texture(baseTexture, new PIXI.Rectangle(0,0,16,16));
     }
 
     public getSprite() : PIXI.Sprite
