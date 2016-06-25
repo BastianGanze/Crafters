@@ -8,6 +8,7 @@ var assets : any = [
         {src:"assets/img/particle.png", id:"particle"},
         {src:"assets/audio/test.wav", id:"TestSound"},
         {src:"assets/img/testPlayer.png", id:"TestPlayer"},
+        {src:"assets/img/tileset.png", id:"tileset"},
     ], log = Logger("AssetLoader");
 
 class AssetLoader
