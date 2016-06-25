@@ -64,4 +64,9 @@ class PlayerManager{
         return player;
     }
 
+    removePlayer(player)
+    {
+        this.players.delete[player.id];
+    }
+
 }
