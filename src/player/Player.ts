@@ -10,9 +10,12 @@ export default class Player{
     private particleEmitter : ParticleEmitter;
     private gameRenderer : GameRenderer;
     private color;
-    constructor(renderer: GameRenderer, id : string){
+    private team : string;
+    
+    constructor(renderer: GameRenderer, id : string, team : string, color : number){
 
-        this.color = Math.random() * 1000;
+        this.team = team;
+        this.color = color;
         this.pos = new Vector2D(0, 0);
         this.gameRenderer = renderer;
         
@@ -39,5 +42,10 @@ export default class Player{
     public destroy()
     {
         this.particleEmitter.destroy();
+    }
+    
+    public getTeam() : string
+    {
+        return this.team;
     }
 }

@@ -25,7 +25,7 @@ export default class Particle{
         var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("particle");
         this.particleSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
         this.renderer = renderer;
-        this.particleSprite.tint = (color / 1000) * 0xffffff;//'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+        this.particleSprite.tint = color;//'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
         var r = Math.random() * 10;
         
         this.pos = pos;

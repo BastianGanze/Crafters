@@ -29,7 +29,7 @@ class PlayerManager {
         {
             if(!this.mainPlayer)   
             {
-                this.mainPlayer = new Player(gameRenderer, data.id);
+                this.mainPlayer = new Player(gameRenderer, data.id, data.team, 0x00ff00);
                 this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             }
             else
@@ -56,8 +56,10 @@ class PlayerManager {
                 {
                     if(!this.otherPlayers[player.id])
                     {
-                        if(player.team == this.mainPlayer.team)
-                        this.otherPlayers[player.id] = new Player(gameRenderer, player.id);
+                        if(player.getTeam === this.mainPlayer.getTeam)
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, 0x0000ff);
+                        else
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, 0xff0000);
                     }
                     
                     this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));
