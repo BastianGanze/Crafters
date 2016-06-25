@@ -4,8 +4,10 @@ import CommunicationManager from "./communication/CommunicationManager";
 import {Logger} from "./utils/Logger";
 import {Input} from "./utils/Input";
 import Player from "./player/Player";
+import Camera from "./utils/Camera";
 import Map from "./map/Map";
 import PlayerManager from "./player/PlayerManager";
+import Vector2D from "./utils/Vector2D";
 
 var log = Logger("Game");
 
@@ -29,6 +31,11 @@ export default class Game
         this.communicationManager = new CommunicationManager();
 
         this.playerManager = new PlayerManager(this.communicationManager, this.gameRenderer);
+
+        this.communicationManager.on('player data', function(data)
+        {
+            Camera.setCameraPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
+        });
         
     }
 
