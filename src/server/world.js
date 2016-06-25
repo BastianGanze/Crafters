@@ -71,3 +71,6 @@ class World {
         this.collisionCallbacks.push(callback);
     }
 }
+
+module.exports = PlayerCollider;
+module.exports = World;
