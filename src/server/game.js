@@ -16,6 +16,9 @@ class Game {
 
         this.prevTime = Date.now();
         this.update();
+
+        this.testX = 10;
+        this.testY = 10;
     }
 
     update() {
@@ -28,10 +31,29 @@ class Game {
         const currEvents = this.connectionManager.events;
         for (let i = 0; i < currClients.length; i++) {
             let currClient = currClients[i];
-            currClient.emit("keep alive", "ping");
+            
+            // TODO: maybe refactor this to a class
+            if (currEvents.get(currClient).length > 0) {
+                const currEvent = currEvents.get(currClient).pop();
+                switch (currEvent) {
+                    case "join":
+                        currClient.emit("map data", {
+                            map: this.mapManager.map
+                        });
+                }
+            }
 
-            let currEvent = currEvents.get(currClient).pop();
+            currClient.emit("player data", {
+               pos: {
+                   x: this.testX,
+                   y: this.testY
+               }
+            });
+
         }
+
+        this.testX++;
+        this.testY++;
 
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
