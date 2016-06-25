@@ -22,16 +22,17 @@ export default class Game
 
         this.inputManager = new Input.PlayerInput();
 
-        this.map = new Map(this.gameRenderer, null);
+       // this.map = new Map(this.gameRenderer, null);
 
         this.player = new Player(this.gameRenderer);
 
-        this.communicationManager = new CommunicationManager();
+        this.communicationManager = new CommunicationManager()
+        
     }
 
     public update(delta : number) : void
     {
-        this.player.setPosition(this.inputManager.getMouseX(), this.inputManager.getMouseY());
+        this.player.update(this.gameRenderer, this.inputManager.getMouseX(), this.inputManager.getMouseY(), delta);
     }
 
     public render() : void
