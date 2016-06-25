@@ -7,11 +7,11 @@ export default class MapHandler{
     private x: number;
     private y: number;
 
-    constructor(baseTexture: PIXI.BaseTexture, positionX: number, positionY: number)
+    constructor(baseTexture: PIXI.BaseTexture, positionX: number, positionY: number, idX : number, idY : number)
     {
         this.x = positionX;
         this.y = positionY;
-        this.tyleSprite = new PIXI.Sprite(new PIXI.Texture(baseTexture, new PIXI.Rectangle(0,0,16,16)));
+        this.tyleSprite = new PIXI.Sprite(new PIXI.Texture(baseTexture, new PIXI.Rectangle(idX,idY,32,32)));
         this.tyleSprite.position.x = this.x;
         this.tyleSprite.position.y = this.y;
     }

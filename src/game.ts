@@ -24,7 +24,7 @@ export default class Game
 
         this.inputManager = new Input.PlayerInput();
 
-        // this.map = new Map(this.gameRenderer, null);
+        this.map = new Map(this.gameRenderer, null);
 
         this.communicationManager = new CommunicationManager();
 
