@@ -11,7 +11,18 @@ class Game {
     constructor(io) {
 
         this.world = new World();
-        this.world.addCollisionCallback((c1, c2, relVel) => {
+        this.world.addCollisionCallback((c1, c2) => {
+            let diffVec = c1.force.subVec(c2.force);
+
+            c1.velocity = c1.velocity.multSkalar(-1);
+            c1.force = c1.force.multSkalar(-1);
+
+            c2.velocity = c2.velocity.multSkalar(-1);
+            c2.force = c2.force.multSkalar(-1);
+
+            // c1.force = c1.force.addVec(c2.velocity.multSkalar().multSkalar(0.1));
+            // c2.force = c2.force.addVec(diffVec.multSkalar(-0.1));
+
             c1.collided = true;
             c2.collided = true;
         });
@@ -48,9 +59,9 @@ class Game {
                     if (event === "input") {
                         if (currEvent["input"].isLeftButtonPressed) {
                             const mousePos = new Vector2D(+currEvent["input"].mousePosition.x, +currEvent["input"].mousePosition.y);
-                            player.collisionObject.velocity = mousePos.subVec(player.collisionObject.position).norm();
+                            player.collisionObject.force = player.collisionObject.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
                         } else {
-                            player.collisionObject.velocity = new Vector2D(0, 0);
+                            player.collisionObject.force = player.collisionObject.force.addVec(player.collisionObject.force.multSkalar(-0.1));
                         }
                     }
                 }
