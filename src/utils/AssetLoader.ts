@@ -5,6 +5,7 @@ import {Logger} from "../utils/Logger";
 
 var assets : any = [
         {src:"assets/img/test.png", id:"TestImage"},
+        {src:"assets/img/particle.png", id:"particle"},
         {src:"assets/audio/test.wav", id:"TestSound"},
         {src:"assets/img/testPlayer.png", id:"TestPlayer"},
     ], log = Logger("AssetLoader");
@@ -35,7 +36,7 @@ class AssetLoader
 
     private loadError(event : any) {
         log.error("There was an error while loading assets:");
-        log.error(event.text);
+        log.error(event);
     }
 
     private loadComplete(event : any) {

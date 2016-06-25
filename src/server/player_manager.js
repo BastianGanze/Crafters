@@ -78,7 +78,8 @@ class PlayerManager {
 
     removePlayer(player)
     {
-        return this.players.delete[player.id];
+        this.world.removeFromCollision(player.collisionObject);
+        this.players.delete(player.id);
     }
 
 }
