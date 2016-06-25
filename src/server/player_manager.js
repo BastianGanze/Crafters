@@ -2,12 +2,14 @@
 
 class Player {
 
-    constructor(id, name, team, collisionObject)
+    constructor(id, socket, name, team, collisionObject)
     {
         this.id = id;
         this.name = name;
         this.team = team;
         this.collisionObject = collisionObject;
+        this.socket = socket;
+        this.events = [];
     }
 }
 
@@ -18,6 +20,9 @@ class PlayerManager {
         this.players = new Map();
         this.world = world;
         this.playerCount = 0;
+
+        this.redTeamCount = 0;
+        this.blueTeamCount = 0;
     }
 
     getPlayerAsJson(player)
@@ -53,11 +58,20 @@ class PlayerManager {
         return this.playerCount;
     }
 
-    createPlayer(name, team, position, radius)
+    createPlayer(name, socket, position, radius)
     {
+        let team = "";
+        if (this.redTeamCount > this.blueTeamCount) {
+            this.blueTeamCount++;
+            team = "blue";
+        } else {
+            this.redTeamCount++;
+            team = "red";
+        }
+
         var uId = this.getUniqueId(),
             playerCollider = this.world.createPlayerCollider(position, radius),
-            player = new Player(uId, name, team, playerCollider);
+            player = new Player(uId, socket, name, team, playerCollider);
 
         this.players.set(uId, player);
 

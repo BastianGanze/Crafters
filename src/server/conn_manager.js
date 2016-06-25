@@ -2,8 +2,10 @@
 
 class ConnManager {
 
-    constructor(io) {
+    constructor(io, playerManger) {
         this.io = io;
+
+        this.playerManager = playerManger;
 
         this.clients = [];
         this.events = new Map();
@@ -16,10 +18,15 @@ class ConnManager {
             socket.on("join", (data) => {
                 console.info(`Player ${data.name} connected!`);
 
-                this.clients.push(socket);
-                this.events.set(socket, [{
-                    connectionEvent: "join"
-                }]);
+                let joinId = this.playerManager.createPlayer(data.name, socket, { x: 0, y: 0}, 32).id;
+                this.playerManager.players.get(joinId).events.push({
+                    join: true
+                });
+
+                // this.clients.push(socket);
+                // this.events.set(socket, [{
+                //     join: data.name
+                // }]);
             });
 
             socket.on("leave", () => {
