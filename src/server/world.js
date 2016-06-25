@@ -11,16 +11,11 @@ class PlayerCollider {
         this.position = position;
         this.velocity = new Vector2D(0, 0);
         this.radius = radius;
-        this.friction = 0.8;
-        this.force = new Vector2D(0, 0);
-        this.speed = 10;
+        this.speed = 300;
     }
 
     applyVelocity(delta) {
-        // norm to delta
-        let tmpFriction = this.velocity.multSkalar(this.speed);
-        let tmpVel = tmpFriction.multSkalar(delta / 1000);
-        this.position = this.position.addVec(tmpVel);
+
     }
 
     getJsonObject() {
@@ -59,10 +54,10 @@ class World {
 
         for (let colliderId of this.collisionObjects.keys()) {
             let collider = this.collisionObjects.get(colliderId);
-            
-            collider.velocity = collider.velocity.addVec(collider.force.multSkalar(collider.friction));
 
-            collider.applyVelocity(delta);
+            let tmpFriction = collider.velocity.multSkalar(collider.speed);
+            let tmpVel = tmpFriction.multSkalar(delta / 1000);
+            collider.position = collider.position.addVec(tmpVel);
         }
 
     }

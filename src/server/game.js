@@ -44,9 +44,9 @@ class Game {
                     if (event === "input") {
                         if (currEvent["input"].isLeftButtonPressed) {
                             const mousePos = new Vector2D(+currEvent["input"].mousePosition.x, +currEvent["input"].mousePosition.y);
-                            player.collisionObject.force = mousePos.subVec(player.collisionObject.position).norm();
+                            player.collisionObject.velocity = mousePos.subVec(player.collisionObject.position).norm();
                         } else {
-                            player.collisionObject.force = player.collisionObject.velocity.multSkalar(-player.collisionObject.friction);
+                            player.collisionObject.velocity = new Vector2D(0, 0);
                         }
                     }
                 }
