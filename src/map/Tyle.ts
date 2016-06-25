@@ -1,19 +1,23 @@
 import AssetLoader from "../utils/AssetLoader";
 import GameRenderer from "../utils/Renderer";
+import Utils from "../utils/Utils";
+import Vector2D from "../utils/Vector2D";
 
 export default class MapHandler{
 
     private tyleSprite : PIXI.Sprite;
-    private x: number;
-    private y: number;
+    private pos : Vector2D;
 
-    constructor(baseTexture: PIXI.BaseTexture, positionX: number, positionY: number, idX : number, idY : number)
+    constructor(baseTexture: PIXI.BaseTexture, position: Vector2D, idX : number, idY : number)
     {
-        this.x = positionX;
-        this.y = positionY;
-        this.tyleSprite = new PIXI.Sprite(new PIXI.Texture(baseTexture, new PIXI.Rectangle(idX,idY,32,32)));
-        this.tyleSprite.position.x = this.x;
-        this.tyleSprite.position.y = this.y;
+        this.pos = position;
+        this.tyleSprite = new PIXI.Sprite(new PIXI.Texture(baseTexture, new PIXI.Rectangle(idX* 32,idY * 32,32,32)));
+        Utils.setSpriteViewportPos(this.tyleSprite, this.pos);
+    }
+
+    public update() : void
+    {
+        Utils.setSpriteViewportPos(this.tyleSprite, this.pos);
     }
 
     public setNewTexture(baseTexture: PIXI.BaseTexture) : void
