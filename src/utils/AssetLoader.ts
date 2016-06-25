@@ -6,6 +6,7 @@ import {Logger} from "../utils/Logger";
 var assets : any = [
         {src:"assets/img/test.png", id:"TestImage"},
         {src:"assets/audio/test.wav", id:"TestSound"},
+        {src:"assets/img/testPlayer.png", id:"TestPlayer"},
     ], log = Logger("AssetLoader");
 
 class AssetLoader

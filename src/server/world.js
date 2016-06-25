@@ -18,8 +18,8 @@ class PlayerCollider {
         this.position = this.position.addVec(tmpVel);
     }
 
-    toJSON() {
-        return JSON.stringify({"position":this.position, "radius":this.radius, "velocity":this.velocity});
+    getJsonObject() {
+        return {"position":this.position, "radius":this.radius, "velocity":this.velocity};
     }
 }
 
