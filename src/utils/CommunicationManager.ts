@@ -13,6 +13,25 @@ class CommunicationManager {
         this.socket.on('connect', function (data) {
             log.info("Connected to Socket");
         });
+
+        // TODO: this needs to be wired to a button or something
+        this.socket.emit("join", {
+            name: "Peter"
+        });
+
+        this.listen();
+    }
+
+    listen() {
+
+        this.socket.on("player data", function (data) {
+            
+        });
+
+        this.socket.on("map data", function (data) {
+            log.info(data.map);
+        })
+
     }
 
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-class PlayerCollider{
+class PlayerCollider {
 
     constructor(id, position, radius)
     {
@@ -17,7 +17,7 @@ class PlayerCollider{
     }
 }
 
-class World{
+class World {
     
     constructor()
     {
@@ -34,8 +34,7 @@ class World{
     
     createPlayerCollider(position, radius)
     {
-        var playerCollider = new PlayerCollider(this.getUniqueId(), position, radius);
-        return playerCollider;
+        return new PlayerCollider(this.getUniqueId(), position, radius);
     }
     
     addToCollision(collisionObject)
