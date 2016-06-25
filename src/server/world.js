@@ -9,13 +9,13 @@ class PlayerCollider {
         this.playerId = playerId;
         this.type = "CIRCLE";
         this.position = position;
-        this.velocity = new Vector2D();
+        this.velocity = new Vector2D(0, 0);
         this.radius = radius;
+        this.speed = 300;
     }
 
     applyVelocity(delta) {
-        let tmpVel = this.velocity.multSkalar(delta / 1000);
-        this.position = this.position.addVec(tmpVel);
+
     }
 
     getJsonObject() {
@@ -54,9 +54,10 @@ class World {
 
         for (let colliderId of this.collisionObjects.keys()) {
             let collider = this.collisionObjects.get(colliderId);
-            // collider.velocity = new Vector2D(1, 0);
 
-            collider.applyVelocity(delta);
+            let tmpFriction = collider.velocity.multSkalar(collider.speed);
+            let tmpVel = tmpFriction.multSkalar(delta / 1000);
+            collider.position = collider.position.addVec(tmpVel);
         }
 
     }
