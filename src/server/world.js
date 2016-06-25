@@ -11,15 +11,23 @@ class PlayerCollider {
         this.position = position;
         this.velocity = new Vector2D(0, 0);
         this.radius = radius;
-        this.speed = 300;
+        this.speed = 30;
         this.collided = false;
+        this.stunned = false;
+        this.stunnedTimer = 100;
+        this.force = new Vector2D(0, 0);
+        this.friction = 0.5;
 
         this.oldPos = new Vector2D(0, 0);
     }
 
     applyVelocity(delta) {
-        let tmpFriction = this.velocity.multSkalar(this.speed);
-        let tmpVel = tmpFriction.multSkalar(delta / 1000);
+        // let tmpSpeed = this.velocity.multSkalar(this.speed);
+        this.velocity = this.force.multSkalar(this.speed);
+        let tmpVel = this.velocity.multSkalar(delta / 1000);
+        if (tmpVel.abs() < 1) {
+            tmpVel = new Vector2D(0, 0);
+        }
         this.position = this.position.addVec(tmpVel);
     }
 
@@ -70,14 +78,23 @@ class World {
                 let r = collider.radius + otherCollider.radius;
 
                 if ((divX * divX) + (divY * divY) < (r * r)) {
-                    this.collisionHappened(collider, otherCollider, collider.velocity);
+                    this.collisionHappened(collider, otherCollider);
                 } else {
                     collider.oldPos = collider.position;
                     otherCollider.oldPos = otherCollider.position;
                 }
             }
 
-            if (!collider.collided) {
+
+            if (collider.stunned) {
+                collider.stunnedTimer--;
+
+                if (collider.stunnedTimer < 0) {
+                    collider.stunned = false;
+                    collider.stunnedTimer = 10;
+                }
+
+            } else if (!collider.collided) {
                 collider.applyVelocity(delta);
             } else {
                 collider.position = collider.oldPos;
