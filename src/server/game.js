@@ -11,6 +11,10 @@ class Game {
     constructor(io) {
 
         this.world = new World();
+        this.world.addCollisionCallback((c1, c2, relVel) => {
+            c1.collided = true;
+            c2.collided = true;
+        });
         this.playerManager = new PlayerManager(this.world);
 
         this.connectionManager = new ConnManager(io, this.playerManager);
