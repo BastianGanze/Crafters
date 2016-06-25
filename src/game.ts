@@ -15,6 +15,7 @@ export default class Game
     private player : Player;
     private map : Map;
     private communicationManager : CommunicationManager;
+    private playerManager : PlayerManager;
 
     constructor()
     {
@@ -22,8 +23,11 @@ export default class Game
 
         this.inputManager = new Input.PlayerInput();
 
-       // this.map = new Map(this.gameRenderer, null);
+        this.map = new Map(this.gameRenderer, null);
 
+        this.communicationManager = new CommunicationManager();
+
+        this.playerManager = new PlayerManager(this.communicationManager, this.gameRenderer);
         this.player = new Player(this.gameRenderer);
 
         this.communicationManager = new CommunicationManager()
@@ -32,7 +36,7 @@ export default class Game
 
     public update(delta : number) : void
     {
-        this.player.update(this.gameRenderer, this.inputManager.getMouseX(), this.inputManager.getMouseY(), delta);
+        this.playerManager.update(delta);
     }
 
     public render() : void

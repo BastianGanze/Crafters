@@ -1,9 +1,13 @@
 'use strict';
 
+const Vector2D = require("./utils/vector");
+
 class ConnManager {
 
-    constructor(io) {
+    constructor(io, playerManger) {
         this.io = io;
+
+        this.playerManager = playerManger;
 
         this.clients = [];
         this.events = new Map();
@@ -16,30 +20,20 @@ class ConnManager {
             socket.on("join", (data) => {
                 console.info(`Player ${data.name} connected!`);
 
-                this.clients.push(socket);
-                this.events.set(socket, [{
-                    connectionEvent: "join"
-                }]);
+                socket.playerId = this.playerManager.createPlayer(data.name, socket, new Vector2D(0, 0), 32).id;
+                this.playerManager.players.get(socket.playerId).events.push({
+                    join: true
+                });
+            });
+
+            socket.on("player input", (data) => {
+                this.playerManager.players.get(socket.playerId).events.push(data);
             });
 
             socket.on("leave", () => {
-                for (let i = 0; i < this.clients.length; i++) {
-                    if (socket === this.clients[i]) {
-                        this.clients.splice(i, 1);
-                        this.events.delete(socket);
-                        return;
-                    }
-                }
+                this.playerManager.removePlayer(this.playerManager.players.get(socket.playerId));
             });
-
-            socket.on("mouse event", (data) => {
-                this.events.get(socket).push({ mouse: data });
-            });
-
-            socket.on("keep alive", (data) => {
-               //console.log(data);
-            });
-
+            
         });
 
     }

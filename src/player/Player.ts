@@ -4,12 +4,14 @@ import ParticleEmitter from "./ParticleEmitter";
 export default class Player{
 
     private playerSprite : PIXI.Sprite;
+    private id : string;
     private particleEmitter : ParticleEmitter;
     
 
-    constructor(renderer: GameRenderer){
-        var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("TestImage");
+    constructor(renderer: GameRenderer, id : string){
+        var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("TestPlayer");
 
+        this.id = id;
         this.playerSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
         this.particleEmitter = new ParticleEmitter(renderer, 0,0);
         //renderer.addToMainContainer(this.playerSprite);
@@ -23,7 +25,12 @@ export default class Player{
         this.particleEmitter.update(renderer, x, y, delta);
     }
 
-    setPosition(x: number, y: number) : void
+    public getId() : string
+    {
+        return this.id;
+    }
+
+    public setPosition(x: number, y: number) : void
     {
         this.playerSprite.position.x = x;
         this.playerSprite.position.y = y;

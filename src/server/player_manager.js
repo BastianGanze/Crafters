@@ -2,12 +2,14 @@
 
 class Player {
 
-    constructor(id, name, team, collisionObject)
+    constructor(id, socket, name, team, collisionObject)
     {
         this.id = id;
         this.name = name;
         this.team = team;
         this.collisionObject = collisionObject;
+        this.socket = socket;
+        this.events = [];
     }
 }
 
@@ -18,16 +20,17 @@ class PlayerManager {
         this.players = new Map();
         this.world = world;
         this.playerCount = 0;
+
+        this.redTeamCount = 0;
+        this.blueTeamCount = 0;
     }
 
-    getPlayerAsJson(player)
+    static getPlayerAsJson(player)
     {
-        if(player.collisionObject && typeof player.collisionObject.toJSON == "function")
-        {
-            return JSON.stringify({"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.toJSON()});
+        if(player.collisionObject && typeof player.collisionObject.getJsonObject == "function") {
+            return {"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.getJsonObject()};
         }
-        else
-        {
+        else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
             return null;
         }
@@ -53,11 +56,20 @@ class PlayerManager {
         return this.playerCount;
     }
 
-    createPlayer(name, team, position, radius)
+    createPlayer(name, socket, position, radius)
     {
-        var uId = this.getUniqueId(),
-            playerCollider = this.world.createPlayerCollider(position, radius),
-            player = new Player(uId, name, team, playerCollider);
+        let team = "";
+        if (this.redTeamCount > this.blueTeamCount) {
+            this.blueTeamCount++;
+            team = "blue";
+        } else {
+            this.redTeamCount++;
+            team = "red";
+        }
+
+        var uId = this.getUniqueId();
+        let playerCollider = this.world.createPlayerCollider(uId, position, radius);
+        let player = new Player(uId, socket, name, team, playerCollider);
 
         this.players.set(uId, player);
 

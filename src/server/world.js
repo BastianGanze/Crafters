@@ -1,73 +1,78 @@
 "use strict";
 
+const Vector2D = require("./utils/vector");
+
 class PlayerCollider {
 
-    constructor(id, playerId, position, radius)
-    {
+    constructor(id, playerId, position, radius) {
         this.id = id;
         this.playerId = playerId;
         this.type = "CIRCLE";
         this.position = position;
-        this.velocity = {x:0,y:0};
+        this.velocity = new Vector2D();
         this.radius = radius;
     }
 
-    toJSON()
-    {
-        return JSON.stringify({"position":this.position, "radius":this.radius, "velocity":this.velocity});
+    applyVelocity(delta) {
+        let tmpVel = this.velocity.multSkalar(delta / 1000);
+        this.position = this.position.addVec(tmpVel);
+    }
+
+    getJsonObject() {
+        return {"position":this.position, "radius":this.radius, "velocity":this.velocity};
     }
 }
 
 class World {
     
-    constructor()
-    {
+    constructor() {
         this.colliderIds = 0;
-        this.collisionObjects = {};
+        this.collisionObjects = new Map();
         this.collisionCallbacks = [];
     }
 
-    getUniqueId()
-    {
+    getUniqueId() {
         this.colliderIds++;
         return this.colliderIds;
     }
     
-    createPlayerCollider(playerId, position, radius)
-    {
-        return new PlayerCollider(this.getUniqueId(), playerId, position, radius);
+    createPlayerCollider(playerId, position, radius) {
+        let playerColl = new PlayerCollider(this.getUniqueId(), playerId, position, radius);
+        this.addToCollision(playerColl);
+        return playerColl;
     }
     
-    addToCollision(collisionObject)
-    {
-        this.collisionObjects[collisionObject.id] = collisionObject;
+    addToCollision(collisionObject) {
+        this.collisionObjects.set(collisionObject.id, collisionObject);
     }
     
-    removeFromCollision(collisionObject)
-    {
-        delete this.collisionObjects[collisionObject.id];
+    removeFromCollision(collisionObject) {
+        this.collisionObjects.delete(collisionObject.id);
     }
     
-    updatePhysicStep(delta)
-    {
-        //TODO: Update physic for each object and do collision
+    updatePhysicStep(delta) {
+
+        for (let colliderId of this.collisionObjects.keys()) {
+            let collider = this.collisionObjects.get(colliderId);
+            // collider.velocity = new Vector2D(1, 0);
+
+            collider.applyVelocity(delta);
+        }
+
     }
     
-    collisionHappened(collider_1, collider_2, relativeVelocity)
-    {
+    collisionHappened(collider_1, collider_2, relativeVelocity) {
         for(var i=0; i < this.collisionCallbacks; i++)
         {
-            this.collisionCallbacks[i](collider_1, collider_2, relativeVelocity);         
+            this.collisionCallbacks[i](collider_1, collider_2, relativeVelocity);
         }
     }
     
-    update(delta)
-    {
-        this.updatePhysicStep(delta);    
+    update(delta) {
+        this.updatePhysicStep(delta);
     }
     
-    addCollisionCallback(callback)
-    {
+    addCollisionCallback(callback) {
         this.collisionCallbacks.push(callback);
     }
 }

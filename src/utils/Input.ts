@@ -12,10 +12,20 @@ export module Input
         DOWN
     }
 
+    export enum MouseButtons{
+        LEFT = 1,
+        RIGHT = 3,
+        MIDDLE = 2
+    }
+
+
     //Define additional input, which is not mapped to the keyboard here
     export enum CustomInput{
         X_AXIS,
-        Y_AXIS
+        Y_AXIS,
+        LEFT_CLICK,
+        RIGHT_CLICK,
+        MIDDLE_CLICK
     }
 
     //Actual player input. Use this to create key bindings for multiple players.
@@ -23,6 +33,7 @@ export module Input
     {
         protected keyBindings : {[id: number] : number;}
         protected keyPressedMap : {[id: number] : number;}
+        protected mouseKeyPressedMap : {[id: number] : number;}
         protected customBindings : {[id: number] : () => number;}
         protected xAxisCallback : () => number;
         protected yAxisCallback : () => number;
@@ -34,8 +45,11 @@ export module Input
             var $document : JQuery = $(document);
             $document.keydown(this.onKeyDown.bind(this));
             $document.keyup(this.onKeyUp.bind(this));
+            $document.mousedown(this.onMouseDown.bind(this));
+            $document.mouseup(this.onMouseUp.bind(this));
             this.keyBindings = {};
             this.keyPressedMap = {};
+            this.mouseKeyPressedMap = {};
             this.customBindings = {};
 
             //mouse movement
@@ -109,6 +123,11 @@ export module Input
             return this.keyPressedMap[this.keyBindings[button]] === 1;
         }
 
+        public isMouseButtonPressed(button : MouseButtons) : boolean
+        {
+            return this.mouseKeyPressedMap[button] === 1;
+        }
+
         public getCustomInputValue(inputName : CustomInput)
         {
             return this.customBindings[inputName]();
@@ -124,6 +143,18 @@ export module Input
         {
             var keyCode = e.which;
             this.keyPressedMap[keyCode] = 0;
+        }
+
+        protected onMouseDown(e : any)
+        {
+            var keyCode = e.which;
+            this.mouseKeyPressedMap[keyCode] = 1;
+        }
+
+        protected onMouseUp(e : any)
+        {
+            var keyCode = e.which;
+            this.mouseKeyPressedMap[keyCode] = 0;
         }
     }
 
