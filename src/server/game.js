@@ -52,8 +52,6 @@ class Game {
                 }
             }
 
-            this.world.update(deltaTime);
-
             player.socket.emit("player data", PlayerManager.getPlayerAsJson(player));
 
             let otherPlayers = [];
@@ -63,6 +61,8 @@ class Game {
             player.socket.emit("other player data", { otherPlayers : otherPlayers });
 
         }
+
+        this.world.update(deltaTime);
 
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
