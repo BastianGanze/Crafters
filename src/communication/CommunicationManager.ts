@@ -26,7 +26,7 @@ class CommunicationManager {
         this.listen();
     }
 
-    public on(event, callback)
+    public on(event : string, callback : (any) => {})
     {
         if(! this.eventListener[event]) this.eventListener[event] = [];
         this.eventListener[event].push(callback);
@@ -48,15 +48,15 @@ class CommunicationManager {
 
         this.socket.on("player data", function (data) {
             this.executeEvent("player data", data);
-        });
+        }.bind(this));
 
         this.socket.on("other player data", function (data) {
             this.executeEvent("other player data", data);
-        });
+        }.bind(this));
 
         this.socket.on("map data", function (data) {
             this.executeEvent("map data", data);
-        })
+        }.bind(this))
 
     }
 

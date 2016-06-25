@@ -1,6 +1,7 @@
 import GameRenderer from "./utils/Renderer";
 import AssetLoader from "./utils/AssetLoader";
 import CommunicationManager from "./communication/CommunicationManager";
+import PlayerManager from "./player/PlayerManager";
 import {Logger} from "./utils/Logger";
 import {Input} from "./utils/Input";
 import Player from "./player/Player";
@@ -15,6 +16,7 @@ export default class Game
     private player : Player;
     private map : Map;
     private communicationManager : CommunicationManager;
+    private playerManager : PlayerManager;
 
     constructor()
     {
@@ -27,6 +29,8 @@ export default class Game
         this.player = new Player(this.gameRenderer);
 
         this.communicationManager = new CommunicationManager();
+        
+        this.playerManager = new PlayerManager(this.communicationManager);
     }
 
     public update(delta : number) : void
