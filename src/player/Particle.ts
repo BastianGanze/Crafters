@@ -24,15 +24,16 @@ export default class Particle{
         this.particleSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
         this.renderer = renderer;
         var r = Math.random() * 10;
-
+        
         this.pos = pos;
 
-        this.liveTime =0;
+        this.liveTime = 0;
 
         Utils.setSpriteViewportPos(this.particleSprite, this.pos);
         
         renderer.addToMainContainer(this.particleSprite);
-        
+
+        this.move = new Vector2D(0,0);
         this.move.x =  Math.cos(Math.PI * 2 * r);
         this.move.y =  Math.sin(Math.PI * 2 * r);
 
@@ -50,7 +51,7 @@ export default class Particle{
             this.toDelete = true;
         }
 
-        this.pos.add(this.move);
+        if(!this || !this.pos || !this.pos.add) debugger;
 
         Utils.setSpriteViewportPos(this.particleSprite, this.pos);
 
