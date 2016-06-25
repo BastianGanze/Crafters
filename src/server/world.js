@@ -2,9 +2,10 @@
 
 class PlayerCollider {
 
-    constructor(id, position, radius)
+    constructor(id, playerId, position, radius)
     {
         this.id = id;
+        this.playerId = playerId;
         this.type = "CIRCLE";
         this.position = position;
         this.velocity = {x:0,y:0};
@@ -32,9 +33,9 @@ class World {
         return this.colliderIds;
     }
     
-    createPlayerCollider(position, radius)
+    createPlayerCollider(playerId, position, radius)
     {
-        return new PlayerCollider(this.getUniqueId(), position, radius);
+        return new PlayerCollider(this.getUniqueId(), playerId, position, radius);
     }
     
     addToCollision(collisionObject)
