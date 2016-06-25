@@ -3,8 +3,8 @@
 class Vector2D {
 
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.x = x ? x : 0;
+        this.y = y ? y : 0;
     }
 
     static zero() {
@@ -47,6 +47,12 @@ class Vector2D {
         return new Vector2D(x, y);
     }
 
+    dot(v) {
+        const a = v.norm();
+        const b = this.norm();
+        return (a * b);
+    }
+
     norm() {
         return Math.sqrt(x*x + y*y);
     }
@@ -55,3 +61,5 @@ class Vector2D {
         return `[ ${x}, ${y} ]`;
     }
 }
+
+module.exports = Vector2D;

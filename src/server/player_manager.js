@@ -25,14 +25,12 @@ class PlayerManager {
         this.blueTeamCount = 0;
     }
 
-    getPlayerAsJson(player)
+    static getPlayerAsJson(player)
     {
-        if(player.collisionObject && typeof player.collisionObject.toJSON == "function")
-        {
+        if(player.collisionObject && typeof player.collisionObject.toJSON == "function") {
             return JSON.stringify({"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.toJSON()});
         }
-        else
-        {
+        else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
             return null;
         }
@@ -69,9 +67,9 @@ class PlayerManager {
             team = "red";
         }
 
-        var uId = this.getUniqueId(),
-            playerCollider = this.world.createPlayerCollider(position, radius),
-            player = new Player(uId, socket, name, team, playerCollider);
+        var uId = this.getUniqueId();
+        let playerCollider = this.world.createPlayerCollider(uId, position, radius);
+        let player = new Player(uId, socket, name, team, playerCollider);
 
         this.players.set(uId, player);
 

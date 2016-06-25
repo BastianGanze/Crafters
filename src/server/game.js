@@ -30,6 +30,8 @@ class Game {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
 
+        this.world.update(deltaTime);
+
         for (let playerId of this.playerManager.players.keys()) {
             const player = this.playerManager.players.get(playerId);
 
@@ -46,7 +48,7 @@ class Game {
                 }
             }
 
-            player.socket.emit("player data", this.playerManager.getPlayerAsJson(player));
+            player.socket.emit("player data", PlayerManager.getPlayerAsJson(player));
 
             let otherPlayers = [];
             for (let otherPlayer of this.playerManager.getOtherPlayers(player)) {

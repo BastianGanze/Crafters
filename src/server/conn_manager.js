@@ -1,5 +1,7 @@
 'use strict';
 
+const Vector2D = require("./utils/vector");
+
 class ConnManager {
 
     constructor(io, playerManger) {
@@ -18,15 +20,10 @@ class ConnManager {
             socket.on("join", (data) => {
                 console.info(`Player ${data.name} connected!`);
 
-                let joinId = this.playerManager.createPlayer(data.name, socket, { x: 0, y: 0}, 32).id;
+                let joinId = this.playerManager.createPlayer(data.name, socket, new Vector2D(0, 0), 32).id;
                 this.playerManager.players.get(joinId).events.push({
                     join: true
                 });
-
-                // this.clients.push(socket);
-                // this.events.set(socket, [{
-                //     join: data.name
-                // }]);
             });
 
             socket.on("leave", () => {
