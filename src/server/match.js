@@ -12,13 +12,11 @@ class Game {
         this.team1Resources = {};
         this.team2Resources = {};
         this.neededResources = {};
-
-        this.resourcesPos = [];
     }
     
     setupMatch()
     {
-        this.neededResources = { "a" : 3,"b" : 2,"c" : 1 };
+        this.neededResources = {"a":3,"b":2,"c":1};
         this.team1Resources = {};
         this.team2Resources = {};
         for(var resource in this.neededResources)
@@ -26,12 +24,10 @@ class Game {
             this.team1Resources[resource] = 0;
             this.team2Resources[resource] = 0;
         }
-
-        this.resourcesPos.push({ a : []});
-        for (let a = 0; a < this.neededResources["a"]; a++) {
-            this.resourcesPos.a.push(  )
-        }
     }
+    
+    
+
 
 }
 
