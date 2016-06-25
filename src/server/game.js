@@ -6,7 +6,7 @@ class Game {
 
     constructor(io) {   
 
-        this.connectionManager = new ConnManager(io);
+        this.connectionManager = new ConnManager(io, this);
         this.connectionManager.listen();
 
         this.update = this.update.bind(this);

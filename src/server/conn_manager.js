@@ -2,8 +2,9 @@
 
 class ConnManager {
 
-    constructor(io) {
+    constructor(io, gameActions) {
         this.io = io;
+        this.gameActions = gameActions;
 
         this.clients = [];
         this.events = new Map();
