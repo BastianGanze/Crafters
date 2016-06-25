@@ -40,7 +40,7 @@ export default class Particle{
 
         r = Math.random() * 10;
         this.maxLiveTime *= r;
-        this.maxLiveTime /= 50;
+        this.maxLiveTime /= 99;
     }
 
     public update(delta: number) : void
