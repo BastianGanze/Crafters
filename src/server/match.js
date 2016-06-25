@@ -50,6 +50,7 @@ class Match {
         this.neededResources = {};
         this.teams = [];
         this.teamSpawnPoints = [new Vector2D(100,100), new Vector2D(400,400)]; //TODO: Spawnpoints more intelligent
+        // TODO: resource spawn points same as above
     }
 
     setupMatch()
@@ -71,7 +72,7 @@ class Match {
 
     getCraftingZoneOfTeam(teamNumber)
     {
-        var team = this.teams[teamNumber]
+        var team = this.teams[teamNumber];
         if(team) return team.craftingZone; else {
             console.log("Error! There was no team with the team-number\""+teamNumber+"\"");
             return null;
