@@ -33,10 +33,18 @@ class ConnManager {
             });
 
             socket.on("leave", () => {
-                this.playerManager.removePlayer(this.playerManager.players.get(socket.playerId));
+                var player = this.playerManager.players.get(socket.playerId);
+                if(player) this.playerManager.removePlayer(player);
+            });
+
+            socket.on("disconnect", () =>{
+                var player = this.playerManager.players.get(socket.playerId);
+                if(player) this.playerManager.removePlayer(player);
             });
             
         });
+
+
 
     }
 

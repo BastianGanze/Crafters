@@ -38,25 +38,39 @@ class PlayerManager {
 
         this.communicationManager.on('other player data', function(data)
         {
-            var player, i;
+            var player, i, id;
 
+            for(id in this.otherPlayers)
+            {
+                this.otherPlayers[id].playerUpdated = false;
+            }
+            
             for(i = 0; i < data.otherPlayers.length; i++)
             {
                 player = data.otherPlayers[i];
 
-                if(player && player.id)
+                if(player.id)
                 {
                     if(!this.otherPlayers[player.id])
                     {
                         this.otherPlayers[player.id] = new Player(gameRenderer, player.id);
                     }
-                    else
-                    {
-                        this.otherPlayers[player.id].setPosition(player.physProps.position.x, player.physProps.position.y);
-                    }
+                    
+                    this.otherPlayers[player.id].setPosition(player.physProps.position.x, player.physProps.position.y);
+                    this.otherPlayers[player.id].playerUpdated = true;
                 }
 
             }
+
+            for(id in this.otherPlayers)
+            {
+                if(!this.otherPlayers[id].playerUpdated)
+                {
+                    this.otherPlayers[id].destroy();
+                    delete this.otherPlayers[id];
+                }
+            }
+            
         }.bind(this));
     }
     

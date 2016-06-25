@@ -5,24 +5,35 @@ import GameRenderer from "../utils/Renderer";
 export default class ParticleEmitter{
 
     private particles : Particle[];
+    private renderer : GameRenderer;
+    private particleCount : number = 50;
 
     constructor(renderer: GameRenderer, _X : number, _Y : number)
     {
         this.particles = [];
-        for(var i = 0; i < 50; i ++){
+        this.renderer = renderer;
+        for(var i = 0; i < this.particleCount; i ++){
             this.particles[i] = new Particle(renderer, _X, _Y);
         }
     }
 
-    public update(renderer: GameRenderer, _X : number, _Y : number, delta : number) : void
+    public update(_X : number, _Y : number, delta : number) : void
     {
-        for(var i = 0; i < 50; i ++){
+        for(var i = 0; i < this.particleCount; i++){
             if(!this.particles[i].checkAlive()){
-                renderer.removeFromMainContainer(this.particles[i].getSprite())
-                this.particles[i] = new Particle(renderer, _X, _Y);
+                this.particles[i].destroy();
+                this.particles[i] = new Particle(this.renderer, _X, _Y);
             }
             else
                 this.particles[i].update(delta);
+        }
+    }
+
+    public destroy()
+    {
+        for(var i = 0; i < this.particleCount; i++)
+        {
+            this.particles[i].destroy();
         }
     }
 
