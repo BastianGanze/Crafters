@@ -43,9 +43,11 @@ class PlayerManager {
     public update(delta)
     {
         this.communicationManager.sendEvent('player input', {
-            "mousePosition": {"x": this.mainPlayerInput.getMouseX(), "y": this.mainPlayerInput.getMouseY()}, 
-            "isLeftButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.LEFT),
-            "isRightButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.RIGHT)
+            "input" : {
+                "mousePosition": {"x": this.mainPlayerInput.getMouseX(), "y": this.mainPlayerInput.getMouseY()},
+                "isLeftButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.LEFT),
+                "isRightButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.RIGHT)
+            }
         });
     }
     

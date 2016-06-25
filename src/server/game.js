@@ -35,15 +35,19 @@ class Game {
             if (player.events.length > 0) {
                 const currEvent = player.events.pop();
                 for (let event of Object.keys(currEvent)) {
-                    switch (event) {
-                        case 'join':
-                            player.socket.emit("map data", {
-                                map: this.mapManager.map
-                            });
-                            break;
+                    if (event === "join") {
+                        player.socket.emit("map data", {
+                            map: this.mapManager.map
+                        });
+                    }
 
-                        default:
+                    if (event === "input") {
+                        if (currEvent["input"].isLeftButtonPressed) {
+                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
+                            player.collisionObject.velocity = mousePos.subVec(player.collisionObject.position);
+                        } else {
                             player.collisionObject.velocity = new Vector2D(0, 0);
+                        }
                     }
                 }
             }
