@@ -1,10 +1,11 @@
 import GameRenderer from "./utils/Renderer";
 import AssetLoader from "./utils/AssetLoader";
-import CommunicationManager from "./utils/CommunicationManager";
+import CommunicationManager from "./communication/CommunicationManager";
 import {Logger} from "./utils/Logger";
 import {Input} from "./utils/Input";
 import Player from "./player/Player";
 import Map from "./map/Map";
+import PlayerManager from "./player/PlayerManager";
 
 var log = Logger("Game");
 
@@ -28,7 +29,6 @@ export default class Game
         this.communicationManager = new CommunicationManager();
 
         this.playerManager = new PlayerManager(this.communicationManager, this.gameRenderer);
-        this.player = new Player(this.gameRenderer);
 
         this.communicationManager = new CommunicationManager()
         
