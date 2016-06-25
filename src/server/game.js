@@ -4,7 +4,7 @@ const ConnManager = require("./conn_manager");
 
 class Game {
 
-    constructor(io) {
+    constructor(io) {   
 
         this.connectionManager = new ConnManager(io);
         this.connectionManager.listen();
