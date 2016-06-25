@@ -26,7 +26,11 @@ class CommunicationManager {
     listen() {
 
         this.socket.on("player data", function (data) {
-            
+
+        });
+
+        this.socket.on("other player data", function (data) {
+
         });
 
         this.socket.on("map data", function (data) {
