@@ -21,9 +21,7 @@ class Game {
 
         this.prevTime = Date.now();
         this.update();
-
-        this.testX = 10;
-        this.testY = 10;
+        
     }
 
     update() {
@@ -57,9 +55,6 @@ class Game {
             player.socket.emit("other player data", { otherPlayers : otherPlayers });
 
         }
-
-        this.testX++;
-        this.testY++;
 
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
