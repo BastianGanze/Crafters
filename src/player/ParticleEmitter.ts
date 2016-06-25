@@ -20,6 +20,7 @@ export default class ParticleEmitter{
 
     public update(pos : Vector2D, delta : number) : void
     {
+        
         for(var i = 0; i < this.particleCount; i++){
             if(!this.particles[i].checkAlive()){
                 this.particles[i].destroy();

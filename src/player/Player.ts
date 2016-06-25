@@ -14,7 +14,6 @@ export default class Player{
     constructor(renderer: GameRenderer, id : string){
 
         this.pos = new Vector2D(0, 0);
-        
         this.gameRenderer = renderer;
         
         this.id = id;

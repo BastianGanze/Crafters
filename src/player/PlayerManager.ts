@@ -5,6 +5,7 @@ import Player from "../player/Player";
 import CommunicationManager from "../communication/CommunicationManager";
 import GameRenderer from "../utils/Renderer";
 import {Input} from "../utils/Input";
+import Vector2D from "../utils/Vector2D";
 
 var log = Logger("CommunicationManager");
 
@@ -28,11 +29,11 @@ class PlayerManager {
             if(!this.mainPlayer)   
             {
                 this.mainPlayer = new Player(gameRenderer, data.id);
-                this.mainPlayer.setPosition(data.physProps.position.x, data.physProps.position.y);
+                this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             }
             else
             {
-                this.mainPlayer.setPosition(data.physProps.position.x, data.physProps.position.y);
+                this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             }
         }.bind(this));
 
@@ -56,7 +57,7 @@ class PlayerManager {
                         this.otherPlayers[player.id] = new Player(gameRenderer, player.id);
                     }
                     
-                    this.otherPlayers[player.id].setPosition(player.physProps.position.x, player.physProps.position.y);
+                    this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));
                     this.otherPlayers[player.id].playerUpdated = true;
                 }
 
