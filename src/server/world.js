@@ -10,6 +10,11 @@ class PlayerCollider{
         this.velocity = {x:0,y:0};
         this.radius = radius;
     }
+
+    toJSON()
+    {
+        return JSON.stringify({"position":this.position, "radius":this.radius, "velocity":this.velocity});
+    }
 }
 
 class World{
