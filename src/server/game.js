@@ -35,11 +35,16 @@ class Game {
             // TODO: maybe refactor this to a class
             if (currEvents.get(currClient).length > 0) {
                 const currEvent = currEvents.get(currClient).pop();
-                switch (currEvent) {
-                    case "join":
-                        currClient.emit("map data", {
-                            map: this.mapManager.map
-                        });
+                for (let event of Object.keys(currEvent)) {
+                    switch (event) {
+                        case 'connectionEvent':
+                            if (currEvent.connectionEvent === "join") {
+                                currClient.emit("map data", {
+                                    map: this.mapManager.map
+                                });
+                           }
+                            break;
+                    }
                 }
             }
 

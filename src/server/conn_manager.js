@@ -17,7 +17,9 @@ class ConnManager {
                 console.info(`Player ${data.name} connected!`);
 
                 this.clients.push(socket);
-                this.events.set(socket, ["join"]);
+                this.events.set(socket, [{
+                    connectionEvent: "join"
+                }]);
             });
 
             socket.on("leave", () => {
