@@ -4,6 +4,7 @@ import {Config} from "../config";
 import Player from "../player/Player";
 import CommunicationManager from "../communication/CommunicationManager";
 import GameRenderer from "../utils/Renderer";
+import Camera from "../utils/Camera";
 import {Input} from "../utils/Input";
 import Vector2D from "../utils/Vector2D";
 
@@ -80,7 +81,10 @@ class PlayerManager {
 
         this.communicationManager.sendEvent('player input', {
             "input" : {
-                "mousePosition": {"x": this.mainPlayerInput.getMouseX(), "y": this.mainPlayerInput.getMouseY()},
+                "mousePosition": {
+                    "x": Camera.getCameraPosition().x + this.mainPlayerInput.getMouseX() - Config.STAGE_WIDTH/2,
+                    "y": Camera.getCameraPosition().y + this.mainPlayerInput.getMouseY() - Config.STAGE_HEIGHT/2
+                },
                 "isLeftButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.LEFT),
                 "isRightButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.RIGHT)
             }
