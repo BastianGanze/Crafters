@@ -48,13 +48,17 @@ class Vector2D {
     }
 
     dot(v) {
-        const a = v.norm();
-        const b = this.norm();
+        const a = v.abs();
+        const b = this.abs();
         return (a * b);
     }
 
+    abs() {
+        return Math.sqrt(this.x*this.x + this.y*this.y);
+    }
+
     norm() {
-        return Math.sqrt(x*x + y*y);
+        return new Vector2D(this.x / this.abs(), this.y / this.abs());
     }
 
     toString() {

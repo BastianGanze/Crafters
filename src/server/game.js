@@ -43,16 +43,14 @@ class Game {
 
                     if (event === "input") {
                         if (currEvent["input"].isLeftButtonPressed) {
-                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
-                            player.collisionObject.velocity = mousePos.subVec(player.collisionObject.position);
+                            const mousePos = new Vector2D(+currEvent["input"].mousePosition.x, +currEvent["input"].mousePosition.y);
+                            player.collisionObject.velocity = mousePos.subVec(player.collisionObject.position).norm();
                         } else {
                             player.collisionObject.velocity = new Vector2D(0, 0);
                         }
                     }
                 }
             }
-
-            this.world.update(deltaTime);
 
             player.socket.emit("player data", PlayerManager.getPlayerAsJson(player));
 
@@ -63,6 +61,8 @@ class Game {
             player.socket.emit("other player data", { otherPlayers : otherPlayers });
 
         }
+
+        this.world.update(deltaTime);
 
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
