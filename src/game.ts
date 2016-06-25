@@ -1,6 +1,6 @@
 import GameRenderer from "./utils/Renderer";
 import AssetLoader from "./utils/AssetLoader";
-import CommunicationManager from "./utils/CommunicationManager";
+import CommunicationManager from "./communication/CommunicationManager";
 import {Logger} from "./utils/Logger";
 import {Input} from "./utils/Input";
 import Player from "./player/Player";
