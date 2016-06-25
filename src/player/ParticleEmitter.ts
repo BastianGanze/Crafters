@@ -9,14 +9,14 @@ export default class ParticleEmitter{
     constructor(renderer: GameRenderer, _X : number, _Y : number)
     {
         this.particles = [];
-        for(var i = 0; i < 1000; i ++){
+        for(var i = 0; i < 50; i ++){
             this.particles[i] = new Particle(renderer, _X, _Y);
         }
     }
 
     public update(renderer: GameRenderer, _X : number, _Y : number, delta : number) : void
     {
-        for(var i = 0; i < 1000; i ++){
+        for(var i = 0; i < 50; i ++){
             if(!this.particles[i].checkAlive()){
                 renderer.removeFromMainContainer(this.particles[i].getSprite())
                 this.particles[i] = new Particle(renderer, _X, _Y);

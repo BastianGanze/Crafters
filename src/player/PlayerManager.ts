@@ -70,7 +70,14 @@ class PlayerManager {
                 "isRightButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.RIGHT)
             }
         });
-        
+
+        if(this.mainPlayer){
+            this.mainPlayer.update(delta);
+        }
+        for(var id in this.otherPlayers){
+            this.otherPlayers[id].update(delta);
+        }
+         
     }
     
 
