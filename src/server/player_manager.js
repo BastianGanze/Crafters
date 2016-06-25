@@ -1,6 +1,6 @@
 "use strict";
 
-class Player{
+class Player {
 
     constructor(id, name, team, collisionObject)
     {
@@ -11,7 +11,7 @@ class Player{
     }
 }
 
-class PlayerManager{
+class PlayerManager {
 
     constructor(world)
     {
@@ -35,12 +35,12 @@ class PlayerManager{
 
     getOtherPlayers(player)
     {
-        var players = [];
-        for(var id in this.players)
+        let players = [];
+        for(let id of this.players.keys())
         {
             if(id !== player.id)
             {
-                players.push(this.players[id]);
+                players.push(this.players.get(id));
             }
         }
 
@@ -66,7 +66,10 @@ class PlayerManager{
 
     removePlayer(player)
     {
-        this.players.delete[player.id];
+        return this.players.delete[player.id];
     }
 
 }
+
+module.exports = Player;
+module.exports = PlayerManager;
