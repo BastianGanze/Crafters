@@ -9,12 +9,17 @@ class PlayerCollider {
         this.playerId = playerId;
         this.type = "CIRCLE";
         this.position = position;
-        this.velocity = new Vector2D();
+        this.velocity = new Vector2D(0, 0);
         this.radius = radius;
+        this.friction = 0.8;
+        this.force = new Vector2D(0, 0);
+        this.speed = 10;
     }
 
     applyVelocity(delta) {
-        let tmpVel = this.velocity.multSkalar(delta / 1000);
+        // norm to delta
+        let tmpFriction = this.velocity.multSkalar(this.speed);
+        let tmpVel = tmpFriction.multSkalar(delta / 1000);
         this.position = this.position.addVec(tmpVel);
     }
 
@@ -54,7 +59,8 @@ class World {
 
         for (let colliderId of this.collisionObjects.keys()) {
             let collider = this.collisionObjects.get(colliderId);
-            // collider.velocity = new Vector2D(1, 0);
+            
+            collider.velocity = collider.velocity.addVec(collider.force.multSkalar(collider.friction));
 
             collider.applyVelocity(delta);
         }
