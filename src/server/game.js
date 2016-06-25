@@ -50,7 +50,7 @@ class Game {
 
             let otherPlayers = [];
             for (let otherPlayer of this.playerManager.getOtherPlayers(player)) {
-                otherPlayers.push(this.playerManager.getPlayerAsJson(otherPlayer));
+                otherPlayers.push(PlayerManager.getPlayerAsJson(otherPlayer));
             }
             player.socket.emit("other player data", { otherPlayers : otherPlayers });
 
