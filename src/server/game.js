@@ -29,8 +29,6 @@ class Game {
     update() {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
-        
-        //console.log(`delta: ${deltaTime}`);
 
         for (let [playerId, player] of this.playerManager.players.entries()) {
 
@@ -42,18 +40,18 @@ class Game {
                             player.socket.emit("map data", {
                                 map: this.mapManager.map
                             });
-
-                            player.socket.emit("player data", this.playerManager.getPlayerAsJson(player));
-
-                            let otherPlayers = [];
-                            for (let otherPlayer of this.playerManager.getOtherPlayers(player)) {
-                                otherPlayers.push(otherPlayer);
-                            }
-                            player.socket.emit("other player data", { otherPlayers : otherPlayers });
                             break;
                     }
                 }
             }
+
+            player.socket.emit("player data", this.playerManager.getPlayerAsJson(player));
+
+            let otherPlayers = [];
+            for (let otherPlayer of this.playerManager.getOtherPlayers(player)) {
+                otherPlayers.push(otherPlayer);
+            }
+            player.socket.emit("other player data", { otherPlayers : otherPlayers });
 
         }
 
