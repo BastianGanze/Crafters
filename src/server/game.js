@@ -1,6 +1,7 @@
 'use strict';
 
 const ConnManager = require("./conn_manager");
+const MapManager = require("./map_manager");
 
 class Game {
 
@@ -8,6 +9,8 @@ class Game {
 
         this.connectionManager = new ConnManager(io, this);
         this.connectionManager.listen();
+
+        this.mapManager = new MapManager(64, 64, 16);
 
         this.update = this.update.bind(this);
 
@@ -28,16 +31,6 @@ class Game {
             currClient.emit("keep alive", "ping");
 
             let currEvent = currEvents.get(currClient).pop();
-            if (currEvent) {
-                console.log(currEvent);
-                for (let event in currEvent) {
-                    switch (event) {
-                        case "mouse":
-                            console.log("mouse");
-                            break;
-                    }
-                }   
-            }
         }
 
         const afterTime = Date.now();

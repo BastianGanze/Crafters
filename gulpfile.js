@@ -36,7 +36,7 @@ gulp.task("server", ['transpile'], function () {
        ext: 'js'
    }).once('quit', function(){
        process.exit();
-   });;
+   });
 });
 
 gulp.task('default', ['transpile']);
