@@ -27,8 +27,8 @@ class PlayerManager {
 
     static getPlayerAsJson(player)
     {
-        if(player.collisionObject && typeof player.collisionObject.toJSON == "function") {
-            return JSON.stringify({"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.toJSON()});
+        if(player.collisionObject && typeof player.collisionObject.getJsonObject == "function") {
+            return {"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.getJsonObject()};
         }
         else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
