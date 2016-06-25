@@ -15,8 +15,9 @@ class CommunicationManager {
         });
 
         // TODO: this needs to be wired to a button or something
+        var randNames = ["Peter", "Günter", "Inge", "Petra", "Annelise"];
         this.socket.emit("join", {
-            name: "Peter"
+            name: randNames[Math.floor(Math.random() * randNames.length)]
         });
 
         this.listen();
