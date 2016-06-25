@@ -42,6 +42,7 @@ export default class Game
     public update(delta : number) : void
     {
         this.playerManager.update(delta);
+        this.map.update();
     }
 
     public render() : void

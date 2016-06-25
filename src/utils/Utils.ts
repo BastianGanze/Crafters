@@ -6,8 +6,8 @@ class Utils
     public static setSpriteViewportPos(sprite : PIXI.Sprite, mapPosition : Vector2D)
     {
         var newPosition = Camera.getViewPortCoordinates(mapPosition);
-        sprite.position.x = newPosition.x;
-        sprite.position.y = newPosition.y;
+        sprite.position.x = Math.round(newPosition.x);
+        sprite.position.y = Math.round(newPosition.y);
     }
 }
 
