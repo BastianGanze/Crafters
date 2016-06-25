@@ -58,7 +58,7 @@ class Vector2D {
     }
 
     toString() {
-        return `[ ${x}, ${y} ]`;
+        return `[ ${this.x}, ${this.y} ]`;
     }
 }
 

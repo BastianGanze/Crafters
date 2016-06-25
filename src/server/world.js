@@ -14,7 +14,7 @@ class PlayerCollider {
     }
 
     applyVelocity(delta) {
-        let tmpVel = this.velocity * (delta / 1000);
+        let tmpVel = this.velocity.multSkalar(delta / 1000);
         this.position = this.position.addVec(tmpVel);
     }
 
