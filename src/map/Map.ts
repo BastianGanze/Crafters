@@ -24,7 +24,7 @@ export default class Map{
         for(var i = 0; i < Config.MAP_SIZE_X; i++){
             this.tyleMap[i] = [];
             for(var j = 0; j < Config.MAP_SIZE_Y; j++){
-                this.tyleMap[i][j] = new Tyle(this.baseTexture, new Vector2D(i * 32, j * 32), 0, Math.round(Math.random() * 3));
+                this.tyleMap[i][j] = new Tyle(this.baseTexture, new Vector2D(i * 32, j * 32), 0, Math.round(Math.random() * 4));
                 renderer.addToMainContainer(this.tyleMap[i][j].getSprite());
             }
         }

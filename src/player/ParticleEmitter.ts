@@ -8,13 +8,15 @@ export default class ParticleEmitter{
     private particles : Particle[];
     private renderer : GameRenderer;
     private particleCount : number = 50;
+    private color : number;
 
-    constructor(renderer: GameRenderer, pos : Vector2D)
+    constructor(renderer: GameRenderer, pos : Vector2D, color : number)
     {
         this.particles = [];
+        this.color = color;
         this.renderer = renderer;
         for(var i = 0; i < this.particleCount; i ++){
-            this.particles[i] = new Particle(renderer, pos);
+            this.particles[i] = new Particle(renderer, pos, this.color);
         }
     }
 
@@ -24,7 +26,7 @@ export default class ParticleEmitter{
         for(var i = 0; i < this.particleCount; i++){
             if(!this.particles[i].checkAlive()){
                 this.particles[i].destroy();
-                this.particles[i] = new Particle(this.renderer, pos);
+                this.particles[i] = new Particle(this.renderer, pos, this.color);
             }
             else
                 this.particles[i].update(delta);

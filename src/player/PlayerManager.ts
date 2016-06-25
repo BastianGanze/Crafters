@@ -44,6 +44,7 @@ class PlayerManager {
 
             for(id in this.otherPlayers)
             {
+
                 this.otherPlayers[id].playerUpdated = false;
             }
             
@@ -55,6 +56,7 @@ class PlayerManager {
                 {
                     if(!this.otherPlayers[player.id])
                     {
+                        if(player.team == this.mainPlayer.team)
                         this.otherPlayers[player.id] = new Player(gameRenderer, player.id);
                     }
                     

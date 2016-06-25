@@ -9,17 +9,16 @@ export default class Player{
     private pos : Vector2D;
     private particleEmitter : ParticleEmitter;
     private gameRenderer : GameRenderer;
-    
-
+    private color;
     constructor(renderer: GameRenderer, id : string){
 
+        this.color = Math.random() * 1000;
         this.pos = new Vector2D(0, 0);
         this.gameRenderer = renderer;
         
         this.id = id;
 
-        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0,0));
-        //renderer.addToMainContainer(this.playerSprite);
+        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0,0), this.color);
     }
     
     public update(delta : number) : void
