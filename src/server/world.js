@@ -15,7 +15,7 @@ class PlayerCollider {
 
     applyVelocity(delta) {
         let tmp = this.position.addVec(this.velocity);
-        this.position = tmp.multSkalar(delta / 1000);
+        this.position = tmp;
     }
 
     toJSON() {
