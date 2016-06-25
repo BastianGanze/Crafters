@@ -54,7 +54,7 @@ class World {
 
         for (let colliderId of this.collisionObjects.keys()) {
             let collider = this.collisionObjects.get(colliderId);
-            collider.velocity = new Vector2D(1, 0);
+            // collider.velocity = new Vector2D(1, 0);
 
             collider.applyVelocity(delta);
         }

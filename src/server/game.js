@@ -4,6 +4,7 @@ const ConnManager = require("./conn_manager");
 const MapManager = require("./map_manager");
 const World = require("./world");
 const PlayerManager = require("./player_manager");
+const Vector2D = require("./utils/vector");
 
 class Game {
 
@@ -28,8 +29,6 @@ class Game {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
 
-        this.world.update(deltaTime);
-
         for (let playerId of this.playerManager.players.keys()) {
             const player = this.playerManager.players.get(playerId);
 
@@ -42,9 +41,14 @@ class Game {
                                 map: this.mapManager.map
                             });
                             break;
+
+                        default:
+                            player.collisionObject.velocity = new Vector2D(0, 0);
                     }
                 }
             }
+
+            this.world.update(deltaTime);
 
             player.socket.emit("player data", PlayerManager.getPlayerAsJson(player));
 
