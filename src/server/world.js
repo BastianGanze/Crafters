@@ -12,10 +12,15 @@ class PlayerCollider {
         this.velocity = new Vector2D(0, 0);
         this.radius = radius;
         this.speed = 300;
+        this.collided = false;
+
+        this.oldPos = new Vector2D(0, 0);
     }
 
     applyVelocity(delta) {
-
+        let tmpFriction = this.velocity.multSkalar(this.speed);
+        let tmpVel = tmpFriction.multSkalar(delta / 1000);
+        this.position = this.position.addVec(tmpVel);
     }
 
     getJsonObject() {
@@ -55,15 +60,36 @@ class World {
         for (let colliderId of this.collisionObjects.keys()) {
             let collider = this.collisionObjects.get(colliderId);
 
-            let tmpFriction = collider.velocity.multSkalar(collider.speed);
-            let tmpVel = tmpFriction.multSkalar(delta / 1000);
-            collider.position = collider.position.addVec(tmpVel);
+            for (let otherColliderId of this.collisionObjects.keys()) {
+                if (otherColliderId === colliderId) { continue; }
+
+                let otherCollider = this.collisionObjects.get(otherColliderId);
+
+                let divX = collider.position.x - otherCollider.position.x;
+                let divY = collider.position.y - otherCollider.position.y;
+                let r = collider.radius + otherCollider.radius;
+
+                if ((divX * divX) + (divY * divY) < (r * r)) {
+                    this.collisionHappened(collider, otherCollider, collider.velocity);
+                } else {
+                    collider.oldPos = collider.position;
+                    otherCollider.oldPos = otherCollider.position;
+                }
+            }
+
+            if (!collider.collided) {
+                collider.applyVelocity(delta);
+            } else {
+                collider.position = collider.oldPos;
+                collider.collided = false;
+            }
+
         }
 
     }
     
     collisionHappened(collider_1, collider_2, relativeVelocity) {
-        for(var i=0; i < this.collisionCallbacks; i++)
+        for(let i = 0; i < this.collisionCallbacks.length; i++)
         {
             this.collisionCallbacks[i](collider_1, collider_2, relativeVelocity);
         }
