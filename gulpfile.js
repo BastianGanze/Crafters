@@ -31,7 +31,7 @@ gulp.task('watch', ['transpile'], function() {
 });
 
 gulp.task("server", function () {
-   nodemon({
+   return nodemon({
        script: "src/server/main.js",
        ext: 'js'
    })

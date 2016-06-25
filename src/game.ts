@@ -4,7 +4,7 @@ import CommunicationManager from "./utils/CommunicationManager";
 import {Logger} from "./utils/Logger";
 import {Input} from "./utils/Input";
 import Player from "./player/Player";
-
+import Map from "./map/Map";
 
 var log = Logger("Game");
 
@@ -13,6 +13,7 @@ export default class Game
     private gameRenderer : GameRenderer;
     private inputManager : Input.PlayerInput;
     private player : Player;
+    private map : Map;
     private communicationManager : CommunicationManager;
 
     constructor()
@@ -20,7 +21,9 @@ export default class Game
         this.gameRenderer = new GameRenderer();
 
         this.inputManager = new Input.PlayerInput();
-        
+
+        this.map = new Map(this.gameRenderer, null);
+
         this.player = new Player(this.gameRenderer);
 
         this.communicationManager = new CommunicationManager();
