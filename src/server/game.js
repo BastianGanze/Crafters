@@ -30,7 +30,8 @@ class Game {
         const beforeTime = Date.now();
         const deltaTime = beforeTime - this.prevTime;
 
-        for (let [playerId, player] of this.playerManager.players.entries()) {
+        for (let playerId of this.playerManager.players.keys()) {
+            const player = this.playerManager.players.get(playerId);
 
             if (player.events.length > 0) {
                 const currEvent = player.events.pop();
