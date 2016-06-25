@@ -27,7 +27,9 @@ class ConnManager {
             });
 
             socket.on("player input", (data) => {
-                this.playerManager.players.get(socket.playerId).events.push(data);
+                let player = this.playerManager.players.get(socket.playerId);
+
+                if(player) player.events.push(data);
             });
 
             socket.on("leave", () => {

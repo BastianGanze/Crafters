@@ -15,13 +15,14 @@ class PlayerManager {
     protected otherPlayers : {};
     protected communicationManager : CommunicationManager;
     protected gameRenderer : GameRenderer;
-    
+     protected bla :number;
     constructor(communicationManager : CommunicationManager, gameRenderer: GameRenderer) {
         this.otherPlayers = {};
         this.communicationManager = communicationManager;
         this.gameRenderer = gameRenderer;
         this.mainPlayerInput = new Input.PlayerInput();
-        
+        this.bla = 0;
+
         this.communicationManager.on('player data', function(data)
         {
             if(!this.mainPlayer)   
@@ -33,15 +34,35 @@ class PlayerManager {
             {
                 this.mainPlayer.setPosition(data.physProps.position.x, data.physProps.position.y);
             }
-        });
+        }.bind(this));
+
         this.communicationManager.on('other player data', function(data)
         {
+            var player, i;
 
-        });
+            for(i = 0; i < data.otherPlayers.length; i++)
+            {
+                player = data.otherPlayers[i];
+
+                if(player && player.id)
+                {
+                    if(!this.otherPlayers[player.id])
+                    {
+                        this.otherPlayers[player.id] = new Player(gameRenderer, player.id);
+                    }
+                    else
+                    {
+                        this.otherPlayers[player.id].setPosition(player.physProps.position.x, player.physProps.position.y);
+                    }
+                }
+
+            }
+        }.bind(this));
     }
     
     public update(delta)
     {
+
         this.communicationManager.sendEvent('player input', {
             "input" : {
                 "mousePosition": {"x": this.mainPlayerInput.getMouseX(), "y": this.mainPlayerInput.getMouseY()},
@@ -49,6 +70,7 @@ class PlayerManager {
                 "isRightButtonPressed": this.mainPlayerInput.isMouseButtonPressed(Input.MouseButtons.RIGHT)
             }
         });
+        
     }
     
 
