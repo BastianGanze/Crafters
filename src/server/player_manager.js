@@ -2,10 +2,11 @@
 
 class Player{
 
-    constructor(id, name, collisionObject)
+    constructor(id, name, team, collisionObject)
     {
         this.id = id;
         this.name = name;
+        this.team = team;
         this.collisionObject = collisionObject;
     }
 }
@@ -23,7 +24,7 @@ class PlayerManager{
     {
         if(player.collisionObject && typeof player.collisionObject.toJSON == "function")
         {
-            return JSON.stringify({"id":player.id, "name":player.name, "physProps":player.collisionObject.toJSON()});
+            return JSON.stringify({"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.toJSON()});
         }
         else
         {
@@ -32,16 +33,35 @@ class PlayerManager{
         }
     }
 
+    getOtherPlayers(player)
+    {
+        var players = [];
+        for(var id in this.players)
+        {
+            if(id !== player.id)
+            {
+                players.push(this.players[id]);
+            }
+        }
+
+        return players;
+    }
+
     getUniqueId()
     {
         this.playerCount++;
         return this.playerCount;
     }
 
-    createPlayer(name)
+    createPlayer(name, team, position, radius)
     {
-        var uId = this.getUniqueId();
-        this.players.set(uId, new Player(uId, name));
+        var uId = this.getUniqueId(),
+            playerCollider = this.world.createPlayerCollider(position, radius),
+            player = new Player(uId, name, team, playerCollider);
+
+        this.players.set(uId, player);
+
+        return player;
     }
 
 }
