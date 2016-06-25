@@ -26,7 +26,7 @@ export default class Player{
     
     public update(delta : number) : void
     {
-        this.particleEmitter.update(this.gameRenderer, this.posX, this.posY, delta);
+        this.particleEmitter.update(this.posX, this.posY, delta);
     }
 
     public getId() : string
@@ -38,5 +38,10 @@ export default class Player{
     {
         this.posX = x;
         this.posY = y;
+    }
+    
+    public destroy()
+    {
+        this.particleEmitter.destroy();
     }
 }

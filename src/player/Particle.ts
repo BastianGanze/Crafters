@@ -17,10 +17,12 @@ export default class Particle{
 
     private toDelete : boolean;
 
+    private renderer : GameRenderer;
+
     constructor(renderer: GameRenderer, _X : number, _Y : number){
         var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("particle");
         this.particleSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
-
+        this.renderer = renderer;
         var r = Math.random() * 10;
 
         this.posX = _X;
@@ -62,9 +64,9 @@ export default class Particle{
     public checkAlive() : boolean{
         return !this.toDelete;
     }
-    
-    public getSprite() : PIXI.Sprite{
-        return this.particleSprite;
+    public destroy()
+    {
+        this.renderer.removeFromMainContainer(this.particleSprite);
     }
 
 }

@@ -36,7 +36,7 @@ class AssetLoader
 
     private loadError(event : any) {
         log.error("There was an error while loading assets:");
-        log.error(event.text);
+        log.error(event);
     }
 
     private loadComplete(event : any) {
