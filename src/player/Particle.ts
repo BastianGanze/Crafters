@@ -1,16 +1,16 @@
 import AssetLoader from "../utils/AssetLoader";
 import GameRenderer from "../utils/Renderer";
 import PI_2 = PIXI.PI_2;
+import Vector2D from "../utils/Vector2D";
+import Utils from "../utils/Utils";
 
 export default class Particle{
 
     private particleSprite : PIXI.Sprite;
 
-    private posX : number;
-    private posY : number;
+    private pos : Vector2D;
 
-    private moveX : number;
-    private moveY : number;
+    private move : Vector2D;
 
     private liveTime : number;
     private maxLiveTime : number = 800;
@@ -19,24 +19,22 @@ export default class Particle{
 
     private renderer : GameRenderer;
 
-    constructor(renderer: GameRenderer, _X : number, _Y : number){
+    constructor(renderer: GameRenderer, pos : Vector2D){
         var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("particle");
         this.particleSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
         this.renderer = renderer;
         var r = Math.random() * 10;
 
-        this.posX = _X;
-        this.posY = _Y;
+        this.pos = pos;
 
         this.liveTime =0;
 
-        this.particleSprite.position.x = this.posX;
-        this.particleSprite.position.y = this.posY;
+        Utils.setSpriteViewportPos(this.particleSprite, this.pos);
         
         renderer.addToMainContainer(this.particleSprite);
         
-        this.moveX =  Math.cos(Math.PI * 2 * r);
-        this.moveY =  Math.sin(Math.PI * 2 * r);
+        this.move.x =  Math.cos(Math.PI * 2 * r);
+        this.move.y =  Math.sin(Math.PI * 2 * r);
 
         this.toDelete = false;
 
@@ -52,11 +50,10 @@ export default class Particle{
             this.toDelete = true;
         }
 
-        this.posX += this.moveX;
-        this.posY += this.moveY;
+        this.pos.add(this.move);
 
-        this.particleSprite.position.x = this.posX;
-        this.particleSprite.position.y = this.posY;
+        Utils.setSpriteViewportPos(this.particleSprite, this.pos);
+
         this.particleSprite.alpha *= (15/16);
 
     }

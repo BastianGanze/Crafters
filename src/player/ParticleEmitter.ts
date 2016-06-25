@@ -1,6 +1,7 @@
 import Particle from "./Particle";
 import AssetLoader from "../utils/AssetLoader";
 import GameRenderer from "../utils/Renderer";
+import Vector2D from "../utils/Vector2D";
 
 export default class ParticleEmitter{
 
@@ -8,21 +9,21 @@ export default class ParticleEmitter{
     private renderer : GameRenderer;
     private particleCount : number = 50;
 
-    constructor(renderer: GameRenderer, _X : number, _Y : number)
+    constructor(renderer: GameRenderer, pos : Vector2D)
     {
         this.particles = [];
         this.renderer = renderer;
         for(var i = 0; i < this.particleCount; i ++){
-            this.particles[i] = new Particle(renderer, _X, _Y);
+            this.particles[i] = new Particle(renderer, pos);
         }
     }
 
-    public update(_X : number, _Y : number, delta : number) : void
+    public update(pos : Vector2D, delta : number) : void
     {
         for(var i = 0; i < this.particleCount; i++){
             if(!this.particles[i].checkAlive()){
                 this.particles[i].destroy();
-                this.particles[i] = new Particle(this.renderer, _X, _Y);
+                this.particles[i] = new Particle(this.renderer, pos);
             }
             else
                 this.particles[i].update(delta);
