@@ -34,7 +34,9 @@ gulp.task("server", function () {
    return nodemon({
        script: "src/server/main.js",
        ext: 'js'
-   })
+   }).once('quit', function(){
+       process.exit();
+   });
 });
 
 gulp.task('default', ['transpile']);
