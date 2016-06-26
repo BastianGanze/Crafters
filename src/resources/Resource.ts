@@ -35,6 +35,7 @@ export default class Recource{
     
     public destroy() : void
     {
+        this.gameRenderer.removeFromMainContainer(this.recourceSprite);
         this.particleEmitter.destroy();
     }
     

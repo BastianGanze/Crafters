@@ -66,6 +66,7 @@ class PlayerManager {
                     }
                     
                     this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));
+                    this.otherPlayers[player.id].setIsStunned(player.isStunned);
                     this.otherPlayers[player.id].playerUpdated = true;
                 }
 
@@ -83,23 +84,34 @@ class PlayerManager {
         }.bind(this));
 
         this.communicationManager.on("resource pickup", function (data) {
-            if(data.player === this.mainPlayer.getId())
-                this.mainPlayer.setItem(data.resource);
-            else{
-                console.log(data.otherPlayers);
-                for(var i in this.otherPlayers)
-                {
-                    if(data.player === this.otherPlayers[i].getId())
-                        this.otherPlayers[i](data.otherPlayers[i].resources);
-                }
-            }
 
+            for(var i in data.players)
+            {
+                var id = data.players[i].id,
+                    resType = data.players[i].resType;
+
+                if(this.mainPlayer.getId() == id)
+                {
+                    this.mainPlayer.setPlayerShapeToResourceShape(resType);
+                }
+                else
+                {
+                    if(this.otherPlayers[id])
+                    {
+                        this.otherPlayers[id].setPlayerShapeToResourceShape(resType);
+                    }
+                    else
+                    {
+                        log.error('There was no other player with the id "'+id+'"');
+                    }
+                }
+
+            }
         }.bind(this));
     }
     
     public update(delta)
     {
-        
         this.communicationManager.sendEvent('player input', {
             "input" : {
                 "mousePosition": {

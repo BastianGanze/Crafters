@@ -52,7 +52,7 @@ class PlayerManager {
     static getPlayerAsJson(player)
     {
         if(player.collisionObject) {
-            return {"id":player.id, "name":player.name, "team":player.team, "isStunned": player.isStunned, "physProps":{"position": player.collisionObject.position}};
+            return {"id":player.id, "name":player.name, "team":player.team, "isStunned": player.isStunned, "resType": player.resType, "physProps":{"position": player.collisionObject.position}};
         }
         else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
@@ -69,6 +69,31 @@ class PlayerManager {
             {
                 players.push(this.players.get(id));
             }
+        }
+
+        return players;
+    }
+
+    getOtherPlayersAsJson(player)
+    {
+        let players = [];
+        for(let id of this.players.keys())
+        {
+            if(id !== player.id)
+            {
+                players.push(PlayerManager.getPlayerAsJson(this.players.get(id)));
+            }
+        }
+
+        return players;
+    }
+
+    getPlayersAsJson()
+    {
+        let players = [];
+        for(let id of this.players.keys())
+        {
+            players.push(PlayerManager.getPlayerAsJson(this.players.get(id)));
         }
 
         return players;

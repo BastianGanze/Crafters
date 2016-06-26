@@ -15,19 +15,17 @@ class Game {
 
         this.io = io;
 
-        this.match = new Match(this.io);
-
         this.world = new World();
         this.world.addCollisionCallback(this.handleCollision.bind(this));
         this.playerManager = new PlayerManager(this.world);
+
+        this.match = new Match(this.io, this.playerManager);
 
         this.connectionManager = new ConnManager(io, this.playerManager, this.match);
         this.connectionManager.listen();
 
         this.mapManager = new MapManager(Config.TILE_SIZE_X, Config.TILE_SIZE_Y, Config.MAP_SIZE_X);
 
-        this.match = new Match(this.io);
-        
         this.update = this.update.bind(this);
 
         this.prevTime = Date.now();
@@ -89,7 +87,7 @@ class Game {
                 let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y);
 
                 if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
-                    this.match.dropResource(player);
+                    this.match.dropResourceToStash(player);
                 }   
             }
 
@@ -150,7 +148,7 @@ class Game {
             playerA.isStunned = true;
 
             if(playerA.inventory.length > 0)
-                this.match.createResource(playerA.inventory.pop(), new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
+                this.match.dropResourceToFloor(playerA, new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
         }
 
         if(Matter.Vector.magnitude(forceToB) > 5)
@@ -158,7 +156,7 @@ class Game {
             playerB.isStunned = true;
 
             if(playerB.inventory.length > 0)
-                this.match.createResource(playerB.inventory.pop(), new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
+                this.match.dropResourceToFloor(playerB, new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
         }
 
     }
