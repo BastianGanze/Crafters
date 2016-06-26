@@ -110,6 +110,8 @@ class Match {
     }
     
     dropResource(player) {
+        if (player.inventory.length < 0) { return; }
+
         player.team.resourceStash[player.inventory] += 1;
 
         let teamData = [];
@@ -146,6 +148,12 @@ class Match {
 
         team.craftingZone.progress = spendSum / neededSum;
         if (team.craftingZone.progress >= 1) {
+            this.winnerTeam = team;
+
+            this.io.emit("game won", {
+                winner : team
+            });
+
             console.log(`Team ${team.id} has won the GAME!`);
         }
 
@@ -160,9 +168,21 @@ class Match {
 
             if (playerPos.subVec(res.position).abs() < res.farmRange && mousePos.subVec(res.position).abs() < res.area) {
 
-                console.log("get resource");
                 player.inventory.push(res.type);
                 res.amount -= 1;
+
+                player.socket.emit("resource pickup", {
+                    resource : res.type
+                });
+
+                if (res.amount <= 0) {
+                    this.resources.splice(i, 1);
+
+                    this.io.emit("resources changed", {
+                        resources : this.resources,
+                        teamRedources : teamData
+                    });
+                }
 
             }
         }
@@ -176,6 +196,15 @@ class Match {
             }
         }
 
+    }
+    
+    createResource(resourceType, position) {
+        this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
+
+        this.io.emit("resources changed", {
+            resources : this.resources,
+            teamRedources : teamData
+        });
     }
 
     update(delta) {
