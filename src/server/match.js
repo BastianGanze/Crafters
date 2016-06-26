@@ -5,9 +5,9 @@ const MapManager = require("./map_manager");
 const World = require("./world");
 const PlayerManager = require("./player_manager");
 const Vector2D = require("./utils/vector");
+const Resource = require("./resource");
 
-class CraftingZone
-{
+class CraftingZone {
     constructor(position, width, height)
     {
         this.position = position;
@@ -15,48 +15,7 @@ class CraftingZone
     }
 }
 
-class Resource{
-
-    /**
-     *
-     * @param position
-     * @param type Type of resource as string
-     * @param amount Amount until depleted
-     */
-    constructor(position, type, amount)
-    {
-        this.position = position;
-        this.type = type;
-        this.amount = amount;
-    }
-
-    static resourceTypes() {
-        return {
-            Triangle : "Triangle",
-            Square   : "Square",
-            Pentagon : "Pentagon"
-        };
-    }
-
-    static getResourceType(i) {
-        switch (i) {
-            case 0:
-                return Resource.resourceTypes().Triangle;
-                break;
-            case 1:
-                return Resource.resourceTypes().Square;
-                break;
-            case 2:
-                return Resource.resourceTypes.Pentagon;
-                break;
-
-            default:
-                return Resource.resourceTypes().Triangle;
-        }
-    }
-}
-
-class Team{
+class Team {
 
     constructor(teamPosition) {
         this.position = teamPosition;
@@ -80,9 +39,10 @@ class Match {
         this.teamCount = 2;
         this.neededResources = {};
         this.teams = [];
-        this.teamSpawnPoints = [new Vector2D(100,100), new Vector2D(400,400)]; //TODO: Spawnpoints more intelligent
-        this.resourceSpawnPoints = [new Vector2D(250, 250), new Vector2D(250, 100), new Vector2D(250, 400)];
+        this.teamSpawnPoints = [new Vector2D(4, 32), new Vector2D(60, 32)]; //TODO: Spawnpoints more intelligent
+        this.resourceSpawnPoints = [new Vector2D(0, 0), new Vector2D(32, 32), new Vector2D(32, 54)];
         this.resources = [];
+        this.resourceCount = 0;
 
         this.setupMatch();
     }
@@ -104,10 +64,15 @@ class Match {
         }
 
         for (let i = 0; i < this.resourceSpawnPoints.length; i++) {
-                this.resources.push(new Resource(this.resourceSpawnPoints[i].addScalar(Math.floor(Math.random() * 20)),
-                    Resource.getResourceType(i), 10));
+                this.resources.push(new Resource(this.getResourceId(), 
+                    this.resourceSpawnPoints[i].addScalar(Math.floor(Math.random() * 5)), Resource.getResourceType(i), 10));
         }
 
+    }
+
+    getResourceId() {
+        this.resourceCount++;
+        return this.resourceCount;
     }
 
     getCraftingZoneOfTeam(teamNumber)
@@ -145,9 +110,25 @@ class Match {
 
     }
 
-    update(delta)
-    {
+    checkResourceHit(mousePos, player) {
 
+        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+
+        for (let i = 0; i < this.resources.length; i++) {
+            let res = this.resources[i];
+
+            if (playerPos.subVec(res.position).abs() < res.farmRange && mousePos.subVec(res.position).abs() < res.area) {
+
+                player.inventory.push(res.type);
+                this.changeResource(res, player.team, 1);
+
+            }
+        }
+
+    }
+
+    update(delta) {
+        
     }
 }
 
