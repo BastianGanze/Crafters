@@ -13,6 +13,7 @@ class Player {
         this.collisionObject = collisionObject;
         this.force = new Vector2D(0,0);
         this.socket = socket;
+        this.resType = "none";
         this.events = [];
         this.stunnedTimer = 0;
         this.stunnedTime = 1000;

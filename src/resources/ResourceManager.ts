@@ -22,8 +22,10 @@ class ResourceManager {
     {
         this.communicationManager = communicationManager;
         this.gameRenderer = gameRenderer;
+        this.resources = [];
+
         this.communicationManager.on('match data', function(data){
-            if(!this.resources) {
+            if(this.resources.length == 0) {
                 this.resources = [];
                 for (var i in data.match.resources) {
                     this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
@@ -33,17 +35,31 @@ class ResourceManager {
          }.bind(this));
 
         this.communicationManager.on('resources changed', function(data){
-        
+
+            for(var i in this.resources)
+            {
+                this.resources[i].destroy();
+            }
+
+            this.resources = [];
+
+            for(var i in data.resources)
+            {
+                this.resources[i] = new Resource(this.gameRenderer, data.resources[i].position, data.resources[i].type);
+            }
+
         }.bind(this));
     }
 
     
     public update(delta)
     {
-        for(var i in this.resources)
-        {
-            this.resources[i].update(delta);
-        }
+
+            for (var i = 0; i < this.resources.length; i++) {
+                if(typeof this.resources[i].update != "function") debugger;
+                this.resources[i].update(delta);
+            }
+
     }
 
 

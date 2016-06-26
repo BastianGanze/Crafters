@@ -39,10 +39,11 @@ class Team {
 
 class Match {
 
-    constructor(io) {
+    constructor(io, playerManager) {
         this.io = io;
 
         this.isRunning = false;
+        this.playerManager = playerManager;
         this.winnerTeam = null;
         this.teamCount = 2;
         this.neededResources = Config.CRAFTING_MAX_RESOURCES;
@@ -128,13 +129,14 @@ class Match {
             if(player.team.id == this.teams[i].id) this.teams[i].resourceStash[player.inventory.pop()] += 1
             teamData.push(this.teams[i].getAsJson());
         }
+        
+        player.resType = "none";
 
         this.io.emit("resource pickup", {
             player: player.id,
             resource : "none"
         });
 
-        console.log("Before resource emit in dropResource");
         this.io.emit("resources changed", {
             resources : this.resources,
             teamResources : teamData
@@ -162,6 +164,7 @@ class Match {
 
         team.craftingZone.progress = spendSum / neededSum;
 
+        console.log("crafting progress");
         this.io.emit("crafting progress", {
             team: team.id,
             progress: team.craftingZone.progress
@@ -170,6 +173,7 @@ class Match {
         if (team.craftingZone.progress >= 1) {
             this.winnerTeam = team;
 
+            console.log("before won");
             this.io.emit("game won", {
                 winner : team
             });
@@ -189,7 +193,9 @@ class Match {
 
                 player.inventory.push(res.type);
                 res.amount -= 1;
-
+                
+                player.resType = res.type;
+                
                 this.io.emit("resource pickup", {
                     player: player.id,
                     resource : res.type

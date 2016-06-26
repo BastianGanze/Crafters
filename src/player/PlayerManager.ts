@@ -86,6 +86,7 @@ class PlayerManager {
             if(data.player === this.mainPlayer.getId())
                 this.mainPlayer.setItem(data.resource);
             else{
+                console.log(data.otherPlayers);
                 for(var i in this.otherPlayers)
                 {
                     if(data.player === this.otherPlayers[i].getId())

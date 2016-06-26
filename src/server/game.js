@@ -49,10 +49,12 @@ class Game {
                         player.socket.emit("map data", {
                             map: this.mapManager.map
                         });
+                        console.log("map data send");
 
                         this.io.emit("match data", {
                            match: this.match.getAsJson()
                         });
+                        console.log("match data send");
                     }
 
                     if (event === "input") {
@@ -146,15 +148,17 @@ class Game {
         if(Matter.Vector.magnitude(forceToA) > 5)
         {
             playerA.isStunned = true;
-            
-            this.match.createResource(playerA.inventory.pop(), new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
+
+            if(playerA.inventory.length > 0)
+                this.match.createResource(playerA.inventory.pop(), new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
         }
 
         if(Matter.Vector.magnitude(forceToB) > 5)
         {
             playerB.isStunned = true;
 
-            this.match.createResource(playerB.inventory.pop(), new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
+            if(playerB.inventory.length > 0)
+                this.match.createResource(playerB.inventory.pop(), new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
         }
 
     }
