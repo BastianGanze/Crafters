@@ -7,10 +7,11 @@ class World {
     
     constructor() {
         this.colliderIds = 0;
-        this.collisionObjects = new Map();
+        this.collisionPlayerMap = new Map();
         this.collisionCallbacks = [];
         this.world = Matter.World.create({gravity:{scale: 0}});
         this.engine = Matter.Engine.create({world: this.world});
+        Matter.Events.on(this.engine, 'collisionStart', this.handleCollisionPairs.bind(this))
     }
 
     getUniqueId() {
@@ -20,10 +21,18 @@ class World {
     
     createPlayerCollider(playerId, position, radius) {
 
-        let playerColl = new Matter.Bodies.circle(position.x, position.y, radius, {density: 0.01, frictionAir: 0.5, restitution: 1});
+        let playerColl = new Matter.Bodies.circle(position.x, position.y, radius, {density: 0.01, frictionAir: 0.5, restitution: 1, collisionFilter: {group: 2}});
 
         this.addToCollision(playerColl);
+        
+        this.collisionPlayerMap[playerColl.id] = playerId;
+        
         return playerColl;
+    }
+    
+    getPlayerIdForCollisionObject(collisionId)
+    {
+        return this.collisionPlayerMap[collisionId];
     }
     
     addToCollision(collisionObject) {
@@ -31,12 +40,26 @@ class World {
     }
     
     removeFromCollision(collisionObject) {
-        this.collisionObjects.delete(collisionObject.id);
+        Matter.Composite.remove(this.world, collisionObject);
+    }
+
+    handleCollisionPairs(e)
+    {
+        for(let i = 0; i < this.collisionCallbacks.length; i++)
+        {
+            for(let c = 0; c < e.pairs.length; c++)
+            {
+                this.collisionCallbacks[i](e.pairs[c]);
+            }
+        }
     }
     
     updatePhysicStep(delta) {
 
         Matter.Engine.update(this.engine, delta);
+
+
+
 
         // for (let colliderId of this.collisionObjects.keys()) {
         //     let collider = this.collisionObjects.get(colliderId);
@@ -87,5 +110,4 @@ class World {
     }
 }
 
-module.exports = PlayerCollider;
 module.exports = World;
