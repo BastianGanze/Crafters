@@ -183,6 +183,7 @@ class Match {
 
                 player.inventory.push(res.type);
                 res.amount -= 1;
+                console.log("GOT RESOURCE "+res.amount);
 
                 player.socket.emit("resource pickup", {
                     resource : res.type
@@ -215,8 +216,7 @@ class Match {
         this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
 
         this.io.emit("resources changed", {
-            resources : this.resources,
-            teamRedources : teamData
+            resources : this.resources
         });
     }
 

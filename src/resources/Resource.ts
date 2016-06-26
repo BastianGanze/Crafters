@@ -13,7 +13,7 @@ export default class Recource{
     constructor(renderer: GameRenderer, pos : Vector2D, type : string){
         this.gameRenderer = renderer;
         this.pos = pos;
-        this.particleEmitter = new ParticleEmitter(this.gameRenderer, this.pos, true, type, 800, 5);
+        this.particleEmitter = new ParticleEmitter(this.gameRenderer, this.pos, true, type, 800, 5, 20);
     }
     
     public destrox() : void
