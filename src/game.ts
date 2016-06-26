@@ -35,7 +35,11 @@ export default class Game
         this.communicationManager.on('player data', function(data)
         {
             Camera.setCameraPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
-        });
+        }.bind(this));
+
+        this.communicationManager.on('map data', function(data){
+            this.map.updateMap(data.map);
+        }.bind(this));
         
     }
 
