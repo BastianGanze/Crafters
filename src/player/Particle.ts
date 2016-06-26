@@ -74,8 +74,6 @@ export default class Particle{
             this.toDelete = true;
         }
 
-        if(!this || !this.pos || !this.pos.add) debugger;
-
         Utils.setSpriteViewportPos(this.particleSprite, this.pos);
 
         this.particleSprite.alpha *= (15/16);
