@@ -17,8 +17,8 @@ const Config = {
     MAP_MARGIN_Y: 8,
     BOUNDARY_SIZE: {x: 32, y: 32},
     WS_DOMAIN: 'http://localhost:3000',
-    CRAFTING_ZONE_DIAMETER: 32,
-    CRAFTING_ZONE_DROP_DIAMETER: 20,
+    CRAFTING_ZONE_DIAMETER: 36,
+    CRAFTING_ZONE_DROP_DIAMETER: 25,
     CRAFTING_MAX_RESOURCES: { "Triangle" : 3, "Square" : 2, "Pentagon" : 1 },
     CRAFTING_RESOURCES: { "Triangle" : 0, "Square" : 0, "Pentagon" : 0 },
 
