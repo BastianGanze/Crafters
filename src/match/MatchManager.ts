@@ -22,6 +22,7 @@ export default class MatchManager{
         this.communicationManager.on('match data', function(data)
         {
             var i, teamData;
+            console.log(data);
             if(data && data.match && data.match.teamData)
             {
                 for(i = 0; i < data.match.teamData.length; i++)
@@ -47,7 +48,6 @@ export default class MatchManager{
         var keys = Object.keys(this.craftingAreas), i;
         for(i = 0; i < keys.length; i++)
         {
-            console.log(i, team);
             if(i == team)
             {   this.craftingAreas[keys[i]].setColor(Config.COLOR_FRIEND);
 

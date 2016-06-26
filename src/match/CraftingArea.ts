@@ -26,6 +26,8 @@ export default class CraftingArea{
 
     public update(delta : number) : void
     {
+        this.sprite.rotation += 20 * 1000/delta;
+        if(this.sprite.rotation > 360) this.sprite.rotation = this.sprite.rotation - 360;
         Utils.setSpriteViewportPos(this.sprite, this.pos);
     }
 }
