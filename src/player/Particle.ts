@@ -51,7 +51,7 @@ export default class Particle{
         
         var r = Math.random() * 10;
         
-        this.pos = new Vector2D(pos.x - this.offset.x, pos.y - this.offset.y);;
+        this.pos = new Vector2D(pos.x - this.offset.x, pos.y - this.offset.y);
 
         this.liveTime = 0;
 
