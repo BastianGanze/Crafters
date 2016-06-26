@@ -6,19 +6,23 @@ const World = require("./world");
 const PlayerManager = require("./player_manager");
 const Vector2D = require("./utils/vector");
 const Resource = require("./resource");
+const Config = require("./config");
 
 class CraftingZone {
-    constructor(id, position, width, height)
+    constructor(id, position, diameter)
     {
         this.id = id;
+        this.diameter = diameter;
         this.position = position;
-        this.size = new Vector2D(width, height);
+        this.dropZone = Config.CRAFTING_ZONE_DROP_DIAMETER;
+        this.progress = 0;
+        this.spendResources = Config.CRAFTING_RESOURCES;
     }
 }
 
 class Team {
 
-    constructor(teamPosition) {
+    constructor(teamPosition, id) {
         this.position = teamPosition;
         this.resourceStash = {};
         this.craftingZone = new CraftingZone(teamPosition, 64, 64);
@@ -38,10 +42,10 @@ class Match {
         this.isRunning = false;
         this.winnerTeam = null;
         this.teamCount = 2;
-        this.neededResources = {};
+        this.neededResources = Config.CRAFTING_MAX_RESOURCES;
         this.teams = [];
         this.teamSpawnPoints = [new Vector2D(4, 32), new Vector2D(60, 32)]; //TODO: Spawnpoints more intelligent
-        this.resourceSpawnPoints = [new Vector2D(0, 0), new Vector2D(32, 32), new Vector2D(32, 54)];
+        this.resourceSpawnPoints = [new Vector2D(9, 9), new Vector2D(32, 32), new Vector2D(32, 54)];
         this.resources = [];
         this.resourceCount = 0;
 
@@ -55,9 +59,9 @@ class Match {
     {
         for(let i = 0; i < this.teamCount; i++)
         {
-            this.teams.push(new Team(this.teamSpawnPoints[i]));
+            this.teams.push(new Team(this.teamSpawnPoints[i], i));
         }
-        this.neededResources = { "Triangle" : 3, "Square" : 2, "Pentagon" : 1 };
+
         for(let i=0; i < this.teams.length; i++)
         {
             this.teams[i].resourceStash = {};
@@ -68,7 +72,8 @@ class Match {
 
             // initialize crafting Zones
             this.craftingZoneCount++;
-            this.craftingZones.push(new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i], ))
+            this.craftingZones.push(new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i],
+                Config.CRAFTING_ZONE_WIDTH, Config.CRAFTING_ZONE_DIAMETER));
         }
 
         for (let i = 0; i < this.resourceSpawnPoints.length; i++) {
@@ -100,11 +105,11 @@ class Match {
 
         return { "resources" : this.resources, "teamSpawns" : this.teamSpawnPoints, "teamData" : allTeams };
     }
+    
+    dropResource(player) {
+        console.log("drop res");
 
-    changeResource(resource, team, amount) {
-
-        resource.amount -= amount;
-        team.resourceStash[resource.type] += amount;
+        player.team.resourceStash[player.inventory] += 1;
 
         let teamData = [];
         for (let i = 0; i < this.teams.length; i++) {
@@ -115,6 +120,33 @@ class Match {
             resources : this.resources,
             teamRedources : teamData
         });
+
+        player.inventory = [];
+    }
+    
+    craft(team) {
+
+        console.log("craft");
+
+        let spendSum = 0;
+        let neededSum = 0;
+
+        for (let res of Object.keys(team.resourceStash)) {
+
+            while (team.resourceStash[res] > 0) {
+                team.resourceStash[res]--;
+                team.craftingZone.spendResources[res]++;
+
+                spendSum += team.craftingZone.spendResources[res];
+                neededSum += this.neededResources[res];
+            }
+
+        }
+
+        team.craftingZone.progress = spendSum / neededSum;
+        if (team.craftingZone.progress >= 1) {
+            console.log(`Team ${team.id} has won the GAME!`);
+        }
 
     }
 
@@ -127,13 +159,21 @@ class Match {
 
             if (playerPos.subVec(res.position).abs() < res.farmRange && mousePos.subVec(res.position).abs() < res.area) {
 
+                console.log("get resource");
                 player.inventory.push(res.type);
-                this.changeResource(res, player.team, 1);
+                res.amount -= 1;
 
             }
         }
 
-        for (let i = 0; i < this.)
+        for (let i = 0; i < this.craftingZones.length; i++) {
+            let crafting = this.craftingZones[i];
+
+            if (playerPos.subVec(crafting.position).abs() < crafting.diameter && mousePos.subVec(crafting.position).abs() < crafting.diameter) {
+
+                this.craft(player.team);
+            }
+        }
 
     }
 

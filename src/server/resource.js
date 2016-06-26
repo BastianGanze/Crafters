@@ -28,7 +28,7 @@ class Resource {
                 return Resource.resourceTypes().Square;
                 break;
             case 2:
-                return Resource.resourceTypes.Pentagon;
+                return Resource.resourceTypes().Pentagon;
                 break;
 
             default:
