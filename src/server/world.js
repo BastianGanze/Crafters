@@ -2,6 +2,7 @@
 
 const Vector2D = require("./utils/vector");
 const Matter = require('../../libs/matter');
+const Config = require('./config');
 
 class World {
     
@@ -12,6 +13,21 @@ class World {
         this.world = Matter.World.create({gravity:{scale: 0}});
         this.engine = Matter.Engine.create({world: this.world});
         Matter.Events.on(this.engine, 'collisionStart', this.handleCollisionPairs.bind(this))
+        this.setupWorldBoundaries();
+    }
+
+    setupWorldBoundaries()
+    {
+        let mapSizeX = Config.MAP_SIZE_X*Config.TILE_SIZE_X,
+            mapSizeY = Config.MAP_SIZE_Y*Config.TILE_SIZE_Y,
+            boundaryX = Config.BOUNDARY_SIZE.x,
+            boundaryY = Config.BOUNDARY_SIZE.y,
+            margin = Config.MAP_MARGIN;
+
+        Matter.World.addBody(this.world, Matter.Bodies.rectangle(margin, mapSizeY/2, boundaryX, mapSizeY, {isStatic: true}));
+        Matter.World.addBody(this.world, Matter.Bodies.rectangle(mapSizeX/2, margin, mapSizeX, boundaryY, {isStatic: true}));
+        Matter.World.addBody(this.world, Matter.Bodies.rectangle(mapSizeX-margin, mapSizeY/2, boundaryX, mapSizeX, {isStatic: true}));
+        Matter.World.addBody(this.world, Matter.Bodies.rectangle(mapSizeX/2,mapSizeX-margin, mapSizeX, boundaryY, {isStatic: true}));
     }
 
     getUniqueId() {

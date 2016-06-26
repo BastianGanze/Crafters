@@ -7,6 +7,7 @@ const PlayerManager = require("./player_manager");
 const Vector2D = require("./utils/vector");
 const Match = require("./match");
 const Matter = require('../../libs/matter');
+const Config = require('./config');
 
 class Game {
 
@@ -23,7 +24,9 @@ class Game {
         this.connectionManager = new ConnManager(io, this.playerManager, this.match);
         this.connectionManager.listen();
 
-        this.mapManager = new MapManager(64, 64, 16);
+        this.mapManager = new MapManager(Config.TILE_SIZE_X, Config.TILE_SIZE_Y, Config.MAP_SIZE_X);
+
+        this.match = new Match(this.io);
         
         this.update = this.update.bind(this);
 

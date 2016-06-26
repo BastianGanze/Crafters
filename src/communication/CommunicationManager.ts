@@ -59,8 +59,8 @@ class CommunicationManager {
         }.bind(this));
 
         this.socket.on("match data", function (data) {
-            console.log(data);
-        })
+            this.executeEvent("match data", data);
+        }.bind(this));
     }
 
     public sendEvent(event : string, data : any)
