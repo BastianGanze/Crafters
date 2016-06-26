@@ -73,6 +73,10 @@ class CommunicationManager {
         this.socket.on("resource pickup", function (data) {
             this.executeEvent("resource pickup", data);
         }.bind(this));
+
+        this.socket.on("resources changed", function (data) {
+            this.executeEvent("resources changed", data);
+        }.bind(this));
     }
 
     public sendEvent(event : string, data : any)

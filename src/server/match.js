@@ -117,16 +117,15 @@ class Match {
             allTeams.push(this.teams[i]);
         }
 
-        return { "resources" : this.resources, "teamSpawns" : this.teamSpawnPoints, "teamData" : allTeams };
+        return { "neededResources": this.neededResources, "resources" : this.resources, "teamSpawns" : this.teamSpawnPoints, "teamData" : allTeams };
     }
     
     dropResource(player) {
         if (player.inventory.length < 0) { return; }
 
-        player.team.resourceStash[player.inventory] += 1;
-
         let teamData = [];
         for (let i = 0; i < this.teams.length; i++) {
+            if(player.team.id == this.teams[i].id) this.teams[i].resourceStash[player.inventory.pop()] += 1
             teamData.push(this.teams[i].getAsJson());
         }
 
@@ -137,7 +136,7 @@ class Match {
 
         this.io.emit("resources changed", {
             resources : this.resources,
-            teamRedources : teamData
+            teamResources : teamData
         });
 
         player.inventory = [];
@@ -191,7 +190,6 @@ class Match {
 
                 player.inventory.push(res.type);
                 res.amount -= 1;
-                console.log("GOT RESOURCE "+res.amount);
 
                 this.io.emit("resource pickup", {
                     player: player.id,
@@ -201,9 +199,14 @@ class Match {
                 if (res.amount <= 0) {
                     this.resources.splice(i, 1);
 
+                    let teamData = [];
+                    for (let i = 0; i < this.teams.length; i++) {
+                        teamData.push(this.teams[i].getAsJson());
+                    }
+
                     this.io.emit("resources changed", {
                         resources : this.resources,
-                        teamRedources : teamData
+                        teamResources : teamData
                     });
                 }
 
@@ -231,7 +234,7 @@ class Match {
 
         this.io.emit("resources changed", {
             resources : this.resources,
-            teamRedources : teamData
+            teamResources : teamData
         });
     }
 

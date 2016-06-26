@@ -11,17 +11,19 @@ class TeamScore
     protected resourceCountTexts : {};
     protected progressBar : PIXI.Text;
     protected gameRenderer : GameRenderer;
+    protected neededResources : {};
     protected position : Vector2D;
 
-    constructor(gameRenderer : GameRenderer, resources : {}, position : Vector2D)
+    constructor(gameRenderer : GameRenderer, neededResources : {}, position : Vector2D)
     {
         this.gameRenderer = gameRenderer;
         this.position = position;
-        var keys = Object.keys(resources);
+        var keys = Object.keys(neededResources);
         this.resourceCountTexts = {};
+        this.neededResources = neededResources;
         for(var i = 0; i < keys.length; i++)
         {
-            this.resourceCountTexts[keys[i]] = new PIXI.Text(keys[i]+": "+0);
+            this.resourceCountTexts[keys[i]] = new PIXI.Text(keys[i]+": "+0+" / "+neededResources[keys[i]]);
             this.resourceCountTexts[keys[i]].position = new PIXI.Point(this.position.x + i*200, this.position.y);
             this.gameRenderer.addToMainContainer(this.resourceCountTexts[keys[i]]);
         }
@@ -29,7 +31,9 @@ class TeamScore
 
     public updateResource(resource : string, count : number)
     {
+        var resourceText = this.resourceCountTexts[resource];
 
+        if(resourceText) resourceText.text = resource+": "+count+" / "+this.neededResources[resource];
     }
 
 
@@ -71,7 +75,7 @@ export default class MatchManager{
                         );
                     }
 
-                    this.teamScoreDisplay[i] = new TeamScore(this.gameRenderer, teamData.resourceStash, teamPosScore[i]);
+                    this.teamScoreDisplay[i] = new TeamScore(this.gameRenderer, data.match.neededResources, teamPosScore[i]);
                 }
             }
 
@@ -92,8 +96,13 @@ export default class MatchManager{
 
         this.communicationManager.on('resources changed', function(data)
         {
-
-
+            for(var i = 0; i < data.teamResources.length; i++)
+            {
+                for(var resource in data.teamResources[i].resourceStash)
+                {
+                    this.teamScoreDisplay[i].updateResource(resource, data.teamResources[i].resourceStash[resource]);
+                }
+            }
         }.bind(this));
     }
 

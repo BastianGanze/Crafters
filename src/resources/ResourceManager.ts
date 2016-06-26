@@ -37,9 +37,10 @@ class ResourceManager {
             {
                 this.resources[i].destroy();
             }
-            for(var i in data.match.resources)
+
+            for(var i in data.resources)
             {
-                this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
+                this.resources[i] = new Resource(this.gameRenderer, data.resources[i].position, data.resources[i].type);
             }
         }.bind(this));
     }

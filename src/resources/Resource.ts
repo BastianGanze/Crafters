@@ -16,7 +16,7 @@ export default class Recource{
         this.particleEmitter = new ParticleEmitter(this.gameRenderer, this.pos, true, type, 800, 5, 20);
     }
     
-    public destrox() : void
+    public destroy() : void
     {
         this.particleEmitter.destroy();
     }
