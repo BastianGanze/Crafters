@@ -54,12 +54,9 @@ class ResourceManager {
     
     public update(delta)
     {
-
             for (var i = 0; i < this.resources.length; i++) {
-                if(typeof this.resources[i].update != "function") debugger;
                 this.resources[i].update(delta);
             }
-
     }
 
 

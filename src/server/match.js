@@ -121,28 +121,53 @@ class Match {
         return { "neededResources": this.neededResources, "resources" : this.resources, "teamSpawns" : this.teamSpawnPoints, "teamData" : allTeams };
     }
     
-    dropResource(player) {
+    dropResourceToStash(player) {
         if (player.inventory.length < 0) { return; }
+
+        var poppedResource = player.inventory.pop();
 
         let teamData = [];
         for (let i = 0; i < this.teams.length; i++) {
-            if(player.team.id == this.teams[i].id) this.teams[i].resourceStash[player.inventory.pop()] += 1
+            if (player.team.id == this.teams[i].id) this.teams[i].resourceStash[poppedResource] += 1
             teamData.push(this.teams[i].getAsJson());
         }
-        
+
         player.resType = "none";
 
         this.io.emit("resource pickup", {
-            player: this.playerManager.getPlayerAsJson(player),
-            otherPlayers: this.playerManager.getOtherPlayersAsJson(player)
+            players: this.playerManager.getPlayersAsJson()
         });
 
-        this.io.emit("resources changed", {
-            resources : this.resources,
+        this.io.emit("team stash changed", {
             teamResources : teamData
         });
 
-        player.inventory = [];
+        return poppedResource;
+    }
+
+    dropResourceToFloor(player, position) {
+        if (player.inventory.length < 0) { return; }
+
+        var poppedResource = player.inventory.pop();
+
+        let teamData = [];
+        for (let i = 0; i < this.teams.length; i++) {
+            teamData.push(this.teams[i].getAsJson());
+        }
+
+        player.resType = "none";
+
+        this.io.emit("resource pickup", {
+            players: this.playerManager.getPlayersAsJson()
+        });
+
+        this.createResource(poppedResource, position);
+
+        this.io.emit("team stash changed", {
+            teamResources : teamData
+        });
+
+        return poppedResource;
     }
     
     craft(team) {
@@ -197,21 +222,14 @@ class Match {
                 player.resType = res.type;
 
                 this.io.emit("resource pickup", {
-                    player: PlayerManager.getPlayerAsJson(player),
-                    otherPlayers: this.playerManager.getOtherPlayersAsJson(player)
+                    players: this.playerManager.getPlayersAsJson()
                 });
 
                 if (res.amount <= 0) {
                     this.resources.splice(i, 1);
 
-                    let teamData = [];
-                    for (let i = 0; i < this.teams.length; i++) {
-                        teamData.push(this.teams[i].getAsJson());
-                    }
-                    console.log("Before resource emit in checkMouseHit");
                     this.io.emit("resources changed", {
-                        resources : this.resources,
-                        teamResources : teamData
+                        resources : this.resources
                     });
                 }
 
@@ -232,15 +250,8 @@ class Match {
     createResource(resourceType, position) {
         this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
 
-        let teamData = [];
-        for (let i = 0; i < this.teams.length; i++) {
-            teamData.push(this.teams[i].getAsJson());
-        }
-
-        console.log("Before resource emit in createResource");
         this.io.emit("resources changed", {
             resources : this.resources,
-            teamResources : teamData
         });
     }
 

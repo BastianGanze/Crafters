@@ -77,6 +77,10 @@ class CommunicationManager {
         this.socket.on("resources changed", function (data) {
             this.executeEvent("resources changed", data);
         }.bind(this));
+
+        this.socket.on("team stash changed", function(data){
+            this.executeEvent("team stash changed", data);
+        }.bind(this));
     }
 
     public sendEvent(event : string, data : any)

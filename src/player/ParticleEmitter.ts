@@ -31,9 +31,8 @@ export default class ParticleEmitter{
         }
     }
     
-    public setSprite(sprite : string){
-        var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent(sprite);
-        this.baseTexture = new PIXI.BaseTexture(element);
+    public setParticleBaseTexture(baseTexture :  PIXI.BaseTexture){
+        this.baseTexture = baseTexture;
         for(var i = 0; i < this.particleCount; i ++){
             this.particles[i].setSprite(this.baseTexture);
         }

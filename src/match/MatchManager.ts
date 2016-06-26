@@ -92,7 +92,7 @@ export default class MatchManager{
 
         }.bind(this));
 
-        this.communicationManager.on('resources changed', function(data)
+        this.communicationManager.on('team stash changed', function(data)
         {
             for(var i = 0; i < data.teamResources.length; i++)
             {
