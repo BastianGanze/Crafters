@@ -33,7 +33,7 @@ class ResourceManager {
          }.bind(this));
 
         this.communicationManager.on('resources changed', function(data){
-
+        
         }.bind(this));
     }
 
