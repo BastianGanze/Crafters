@@ -1,15 +1,17 @@
 "use strict";
 
+const Config = require("./config");
+
 class Resource {
-    
+
     constructor(id, position, type, amount)
     {
         this.id = id;
         this.position = position;
         this.type = type;
         this.amount = amount;
-        this.area = 16;
-        this.farmRange = 16;
+        this.area = Config.RESOURCE_AREA;
+        this.farmRange = Config.RESOURCE_FARM_AREA;
     }
 
     static resourceTypes() {
