@@ -67,9 +67,10 @@ class Game {
                         }
 
                         if(currEvent["input"].isRightButtonPressed) {
-                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
-                            this.match.checkMouseHit(mousePos, player);
-
+                            if (!(player.inventory.length > 0)) {
+                                const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
+                                this.match.checkMouseHit(mousePos, player);
+                            }
                         }
 
                         if(Math.abs(player.force.x) < 0.001) player.force.x = 0;
@@ -77,15 +78,13 @@ class Game {
                         
                     }
                 }
+            }
 
-                for (let i = 0; i < this.match.craftingZones.length; i++) {
-                    let crafting = this.match.craftingZones[i];
-                    let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+            let crafting = player.team.craftingZone;
+            let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
 
-                    if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
-                        this.match.dropResource(player)
-                    }
-                }
+            if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
+                this.match.dropResource(player);
             }
 
             player.update(deltaTime);

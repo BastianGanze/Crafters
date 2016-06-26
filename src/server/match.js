@@ -110,7 +110,7 @@ class Match {
     }
     
     dropResource(player) {
-        console.log("drop res");
+        if (player.inventory.length < 0) { return; }
 
         player.team.resourceStash[player.inventory] += 1;
 
@@ -148,6 +148,12 @@ class Match {
 
         team.craftingZone.progress = spendSum / neededSum;
         if (team.craftingZone.progress >= 1) {
+            this.winnerTeam = team;
+
+            this.io.emit("game won", {
+                winner : team
+            });
+
             console.log(`Team ${team.id} has won the GAME!`);
         }
 
@@ -162,9 +168,17 @@ class Match {
 
             if (playerPos.subVec(res.position).abs() < res.farmRange && mousePos.subVec(res.position).abs() < res.area) {
 
-                console.log("get resource");
                 player.inventory.push(res.type);
                 res.amount -= 1;
+
+                if (res.amount <= 0) {
+                    this.resources.splice(i, 1);
+
+                    this.io.emit("resources changed", {
+                        resources : this.resources,
+                        teamRedources : teamData
+                    });
+                }
 
             }
         }
