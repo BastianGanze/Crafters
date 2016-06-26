@@ -16,6 +16,7 @@ export default class CraftingArea{
         this.sprite = new PIXI.Sprite(new PIXI.Texture(baseTexture));
         this.gameRenderer.addToMainContainer(this.sprite);
         this.sprite.tint = color;
+        this.sprite.anchor = new PIXI.Point(0.5 , 0.5);
         Utils.setSpriteViewportPos(this.sprite, this.pos);
     }
 
@@ -26,7 +27,7 @@ export default class CraftingArea{
 
     public update(delta : number) : void
     {
-        this.sprite.rotation += 20 * 1000/delta;
+        this.sprite.rotation += 20 * delta/1000;
         if(this.sprite.rotation > 360) this.sprite.rotation = this.sprite.rotation - 360;
         Utils.setSpriteViewportPos(this.sprite, this.pos);
     }
