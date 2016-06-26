@@ -28,6 +28,14 @@ export default class ParticleEmitter{
             this.particles[i] = new Particle(renderer, pos, this.color, this.baseTexture, this.maxTime, this.emittingRadius);
         }
     }
+    
+    public setSprite(sprite : string){
+        var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent(sprite);
+        this.baseTexture = new PIXI.BaseTexture(element);
+        for(var i = 0; i < this.particleCount; i ++){
+            this.particles[i].setSprite(this.baseTexture);
+        }
+    }
 
     public setColor(color : number)
     {

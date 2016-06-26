@@ -39,8 +39,7 @@ class PlayerManager {
             this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             this.mainPlayer.setIsStunned(data.isStunned);
         }.bind(this));
-        
-        //this.communicationManager.on("")
+
 
         this.communicationManager.on('other player data', function(data)
         {
@@ -81,6 +80,21 @@ class PlayerManager {
                 }
             }
             
+        }.bind(this));
+
+        this.communicationManager.on("resource pickup", function (data) {
+            if(data.player === this.mainPlayer.getId())
+                this.mainPlayer.setItem(data.resource);
+            else{
+                for(var i in this.otherPlayers)
+                {
+                    if(data.player === this.otherPlayers[i].getId())
+                        this.otherPlayers[i](data.otherPlayers[i].resources);
+                }
+            }
+
+            console.log(data);
+
         }.bind(this));
     }
     

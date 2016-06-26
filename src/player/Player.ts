@@ -17,6 +17,7 @@ export default class Player{
 
     public setItem(item : string){
         this.item = item;
+        this.particleEmitter.setSprite(this.item);
     }
     
     constructor(renderer: GameRenderer, id : string, team : string, color : number | boolean){
