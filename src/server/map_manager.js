@@ -15,9 +15,9 @@ class MapManager {
     }
 
     clearMap() {
-        for (let y = 0; y < this.tileHeight; y++) {
+        for (let y = 0; y < this.size; y++) {
             this.map[y] = [];
-            for (let x = 0; x < this.tileWidth; x++) {
+            for (let x = 0; x < this.size; x++) {
                 this.map[y][x] = 0;
             }
         }

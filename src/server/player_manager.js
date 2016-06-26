@@ -17,6 +17,7 @@ class Player {
         this.stunnedTimer = 0;
         this.stunnedTime = 1000;
         this.isStunned = false;
+        this.inventory = [];
     }
 
     update(delta)
@@ -78,15 +79,15 @@ class PlayerManager {
         return this.playerCount;
     }
 
-    createPlayer(name, socket, position, radius)
+    createPlayer(name, socket, position, radius, match)
     {
-        let team = "";
+        let team = match.teams[0];
         if (this.redTeamCount > this.blueTeamCount) {
             this.blueTeamCount++;
-            team = "blue";
+            team = match.teams[0];
         } else {
             this.redTeamCount++;
-            team = "red";
+            team = match.teams[1];
         }
 
         var uId = this.getUniqueId();

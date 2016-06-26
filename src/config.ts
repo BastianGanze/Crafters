@@ -20,5 +20,7 @@ export class Config{
     public static BG_COLOR: number = 0x6495ED;
     public static MAP_SIZE_X: number = 64;
     public static MAP_SIZE_Y: number = 64;
+    public static TILE_SIZE_X: number = 32;
+    public static TILE_SIZE_Y: number = 32;
     public static WS_DOMAIN: string = 'http://localhost:3000';
 }

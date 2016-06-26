@@ -24,7 +24,8 @@ export default class Map{
         for(var i = 0; i < Config.MAP_SIZE_X; i++){
             this.tyleMap[i] = [];
             for(var j = 0; j < Config.MAP_SIZE_Y; j++){
-                this.tyleMap[i][j] = new Tyle(this.baseTexture, new Vector2D(i * 32, j * 32), 0, Math.round(Math.random() * 4));
+                this.tyleMap[i][j] = new Tyle(this.baseTexture, new Vector2D(i * Config.TILE_SIZE_X, j * Config.TILE_SIZE_X));
+                this.tyleMap[i][j].setId(0);
                 renderer.addToMainContainer(this.tyleMap[i][j].getSprite());
             }
         }
@@ -43,9 +44,8 @@ export default class Map{
     {
         for(var i = 0; i < Config.MAP_SIZE_X; i++){
             for(var j = 0; j < Config.MAP_SIZE_Y; j++){
-                this.gameRenderer.removeFromMainContainer(this.tyleMap[i][j].getSprite());
-                this.tyleMap[i][j].setNewTexture(this.baseTexture);
-                this.gameRenderer.addToMainContainer(this.tyleMap[i][j].getSprite());
+
+                this.tyleMap[i][j].setId(map[i][j]);
             }
         }
     }
