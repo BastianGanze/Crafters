@@ -58,14 +58,23 @@ class Game {
 
                     if (event === "input") {
                         if (currEvent["input"].isLeftButtonPressed) {
-                            const mousePos = new Vector2D(+currEvent["input"].mousePosition.x, +currEvent["input"].mousePosition.y);
-                            player.collisionObject.force = player.collisionObject.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
+                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
+                            if(Math.abs(player.force.abs()) < 10)
+                                player.force = player.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
+                            else
+                                player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
                         } else {
-                            player.collisionObject.force = player.collisionObject.force.addVec(player.collisionObject.force.multSkalar(-0.1));
+                            player.force = player.force.addVec(player.force.multSkalar(-0.1));
                         }
+
+                        if(Math.abs(player.force.x) < 0.001) player.force.x = 0;
+                        if(Math.abs(player.force.y) < 0.001) player.force.y = 0;
+                        
                     }
                 }
             }
+
+            player.update(deltaTime);
 
             player.socket.emit("player data", PlayerManager.getPlayerAsJson(player));
 

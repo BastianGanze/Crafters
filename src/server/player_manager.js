@@ -1,5 +1,8 @@
 "use strict";
 
+const Vector2D = require("./utils/vector");
+const Matter = require('../../libs/matter');
+
 class Player {
 
     constructor(id, socket, name, team, collisionObject)
@@ -8,8 +11,14 @@ class Player {
         this.name = name;
         this.team = team;
         this.collisionObject = collisionObject;
+        this.force = new Vector2D(0,0);
         this.socket = socket;
         this.events = [];
+    }
+
+    update(delta)
+    {
+        this.collisionObject.force = this.force.multSkalar(delta/1000);
     }
 }
 
@@ -27,8 +36,8 @@ class PlayerManager {
 
     static getPlayerAsJson(player)
     {
-        if(player.collisionObject && typeof player.collisionObject.getJsonObject == "function") {
-            return {"id":player.id, "name":player.name, "team":player.team, "physProps":player.collisionObject.getJsonObject()};
+        if(player.collisionObject) {
+            return {"id":player.id, "name":player.name, "team":player.team, "physProps":{"position": player.collisionObject.position}};
         }
         else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
