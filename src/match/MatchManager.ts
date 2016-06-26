@@ -79,8 +79,6 @@ export default class MatchManager{
                 }
             }
 
-
-
             if(this.mainPlayerTeam)
             {
                 this.colorTeams();
