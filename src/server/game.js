@@ -67,7 +67,7 @@ class Game {
                         }
 
                         if(currEvent["input"].isRightButtonPressed) {
-                            if (!(player.inventory.length > 0)) {
+                            if (!player.isStunned && !(player.inventory.length > 0)) {
                                 const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
                                 this.match.checkMouseHit(mousePos, player);
                             }
@@ -128,8 +128,8 @@ class Game {
     {
         let relativeVelocity, relativeVelocityB, playerAId, playerBId, playerA, playerB, forceToA, forceToB;
         
-            playerAId = this.world.getPlayerIdForCollisionObject(bodyA.id), 
-            playerBId = this.world.getPlayerIdForCollisionObject(bodyB.id);
+        playerAId = this.world.getPlayerIdForCollisionObject(bodyA.id);
+        playerBId = this.world.getPlayerIdForCollisionObject(bodyB.id);
         
         playerA = this.playerManager.getPlayer(playerAId);
         playerB = this.playerManager.getPlayer(playerBId);
@@ -142,12 +142,18 @@ class Game {
         if(Matter.Vector.magnitude(forceToA) > 5)
         {
             playerA.isStunned = true;
+            
+            this.match.createResource(playerA.inventory.pop(), new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
+            
             console.log("Player A stunned!");
         }
 
         if(Matter.Vector.magnitude(forceToB) > 5)
         {
             playerB.isStunned = true;
+
+            this.match.createResource(playerB.inventory.pop(), new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
+
             console.log("Player B stunned!");
         }
 

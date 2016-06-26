@@ -171,6 +171,10 @@ class Match {
                 player.inventory.push(res.type);
                 res.amount -= 1;
 
+                player.socket.emit("resource pickup", {
+                    resource : res.type
+                });
+
                 if (res.amount <= 0) {
                     this.resources.splice(i, 1);
 
@@ -192,6 +196,15 @@ class Match {
             }
         }
 
+    }
+    
+    createResource(resourceType, position) {
+        this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
+
+        this.io.emit("resources changed", {
+            resources : this.resources,
+            teamRedources : teamData
+        });
     }
 
     update(delta) {
