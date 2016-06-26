@@ -66,6 +66,10 @@ class CommunicationManager {
             this.executeEvent("game won", data);
         }.bind(this));
 
+        this.socket.on("game won", function (data) {
+            this.executeEvent("game won", data);
+        }.bind(this));
+
         this.socket.on("resource pickup", function (data) {
             this.executeEvent("resource pickup", data);
         }.bind(this));

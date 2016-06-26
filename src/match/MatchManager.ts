@@ -6,6 +6,35 @@ import CraftingArea from "./CraftingArea";
 import AssetLoader from "../utils/AssetLoader";
 import {Config} from "../config";
 
+class TeamScore
+{
+    protected resourceCountTexts : {};
+    protected progressBar : PIXI.Text;
+    protected gameRenderer : GameRenderer;
+    protected position : Vector2D;
+
+    constructor(gameRenderer : GameRenderer, resources : {}, position : Vector2D)
+    {
+        this.gameRenderer = gameRenderer;
+        this.position = position;
+        var keys = Object.keys(resources);
+        this.resourceCountTexts = {};
+        for(var i = 0; i < keys.length; i++)
+        {
+            this.resourceCountTexts[keys[i]] = new PIXI.Text(keys[i]+": "+0);
+            this.resourceCountTexts[keys[i]].position = new PIXI.Point(this.position.x + i*200, this.position.y);
+            this.gameRenderer.addToMainContainer(this.resourceCountTexts[keys[i]]);
+        }
+    }
+
+    public updateResource(resource : string, count : number)
+    {
+
+    }
+
+
+}
+
 export default class MatchManager{
 
     protected craftingAreas : {};
@@ -13,6 +42,7 @@ export default class MatchManager{
     protected gameRenderer : GameRenderer;
     protected craftingAreaTexture : PIXI.BaseTexture;
     protected mainPlayerTeam : number;
+    protected teamScoreDisplay : {};
 
     constructor(communicationManager : CommunicationManager, gameRenderer : GameRenderer)
     {
@@ -21,6 +51,8 @@ export default class MatchManager{
         this.craftingAreas = {};
         this.mainPlayerTeam = null;
         this.craftingAreaTexture = new PIXI.BaseTexture(<HTMLImageElement> AssetLoader.getContent("CraftingArea"));
+        this.teamScoreDisplay = {};
+        var teamPosScore = [new Vector2D(0, 20), new Vector2D(Config.STAGE_WIDTH - 630, Config.STAGE_HEIGHT - 50)];
         this.communicationManager.on('match data', function(data)
         {
             var i, teamData;
@@ -28,9 +60,9 @@ export default class MatchManager{
             {
                 for(i = 0; i < data.match.teamData.length; i++)
                 {
+                    teamData = data.match.teamData[i];
                     if(!this.craftingAreas[i])
                     {
-                        teamData = data.match.teamData[i];
                         this.craftingAreas[i] = new CraftingArea(
                             this.craftingAreaTexture,
                             this.gameRenderer,
@@ -38,8 +70,12 @@ export default class MatchManager{
                             Config.COLOR_NEUTRAL
                         );
                     }
+
+                    this.teamScoreDisplay[i] = new TeamScore(this.gameRenderer, teamData.resourceStash, teamPosScore[i]);
                 }
             }
+
+
 
             if(this.mainPlayerTeam)
             {
@@ -51,6 +87,12 @@ export default class MatchManager{
         this.communicationManager.on('game won', function(data)
         {
             console.log(data);
+
+        }.bind(this));
+
+        this.communicationManager.on('resources changed', function(data)
+        {
+
 
         }.bind(this));
     }
