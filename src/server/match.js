@@ -57,7 +57,7 @@ class Match {
         this.teamSpawnPoints = [
             new Vector2D(marginX+spawnMarginX, marginY+spawnMarginX),
             new Vector2D(mapSizeX-marginX-spawnMarginX, mapSizeY-marginY-spawnMarginY)];
-        this.resourceSpawnPoints = [new Vector2D(Config.TILE_SIZE_X*9, Config.TILE_SIZE_Y*9), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*32), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_X*54)];
+        this.resourceSpawnPoints = [new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*10), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*32), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_X*54)];
         this.resources = [];
         this.resourceCount = 0;
 
