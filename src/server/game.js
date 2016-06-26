@@ -148,8 +148,6 @@ class Game {
             playerA.isStunned = true;
             
             this.match.createResource(playerA.inventory.pop(), new Vector2D(playerA.collisionObject.position.x, playerA.collisionObject.position.y));
-            
-            console.log("Player A stunned!");
         }
 
         if(Matter.Vector.magnitude(forceToB) > 5)
@@ -157,8 +155,6 @@ class Game {
             playerB.isStunned = true;
 
             this.match.createResource(playerB.inventory.pop(), new Vector2D(playerB.collisionObject.position.x, playerB.collisionObject.position.y));
-
-            console.log("Player B stunned!");
         }
 
     }
