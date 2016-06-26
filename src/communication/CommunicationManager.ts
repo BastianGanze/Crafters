@@ -61,6 +61,10 @@ class CommunicationManager {
         this.socket.on("match data", function (data) {
             this.executeEvent("match data", data);
         }.bind(this));
+
+        this.socket.on("game won", function (data) {
+            this.executeEvent("game won", data);
+        }.bind(this));
     }
 
     public sendEvent(event : string, data : any)

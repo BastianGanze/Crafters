@@ -47,6 +47,12 @@ export default class MatchManager{
             }
 
         }.bind(this));
+
+        this.communicationManager.on('game won', function(data)
+        {
+            console.log(data);
+
+        }.bind(this));
     }
 
     public setMainPlayerTeam(team : number)

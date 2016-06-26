@@ -39,7 +39,6 @@ export default class Particle{
         }
         if(typeof color == "boolean"){
             this.color = color;
-            console.log(this.color);
             if(this.color){
                 //this.particleSprite.tint = Math.random() * 0xffffff;
                 var r = Math.random() * 0xff0000;
