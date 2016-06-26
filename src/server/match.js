@@ -128,7 +128,8 @@ class Match {
             teamData.push(this.teams[i].getAsJson());
         }
 
-        player.socket.emit("resource pickup", {
+        this.io.emit("resource pickup", {
+            player: player.id,
             resource : "none"
         });
 
@@ -184,7 +185,8 @@ class Match {
                 player.inventory.push(res.type);
                 res.amount -= 1;
 
-                player.socket.emit("resource pickup", {
+                this.io.emit("resource pickup", {
+                    player: player.id,
                     resource : res.type
                 });
 
