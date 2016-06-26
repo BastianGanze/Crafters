@@ -8,6 +8,7 @@ import Camera from "./utils/Camera";
 import Map from "./map/Map";
 import PlayerManager from "./player/PlayerManager";
 import Vector2D from "./utils/Vector2D";
+import RecourceManager from "./resources/ResourceManager"
 
 var log = Logger("Game");
 
@@ -19,6 +20,7 @@ export default class Game
     private map : Map;
     private communicationManager : CommunicationManager;
     private playerManager : PlayerManager;
+    private recourceManager : RecourceManager;
 
     constructor()
     {
@@ -31,6 +33,8 @@ export default class Game
         this.communicationManager = new CommunicationManager();
 
         this.playerManager = new PlayerManager(this.communicationManager, this.gameRenderer);
+
+        this.recourceManager = new RecourceManager(this.communicationManager, this.gameRenderer);
 
         this.communicationManager.on('player data', function(data)
         {
