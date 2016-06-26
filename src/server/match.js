@@ -173,8 +173,6 @@ class Match {
             this.io.emit("game won", {
                 winner : team
             });
-
-            console.log(`Team ${team.id} has won the GAME!`);
         }
 
 
@@ -191,7 +189,6 @@ class Match {
 
                 player.inventory.push(res.type);
                 res.amount -= 1;
-                console.log("GOT RESOURCE "+res.amount);
 
                 this.io.emit("resource pickup", {
                     player: player.id,

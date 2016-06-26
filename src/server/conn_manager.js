@@ -20,8 +20,6 @@ class ConnManager {
         this.io.on("connection", (socket) => {
 
             socket.on("join", (data) => {
-                console.info(`Player ${data.name} connected!`);
-
                 socket.playerId = this.playerManager.createPlayer(data.name, socket, 16, this.match).id;
                 this.playerManager.players.get(socket.playerId).events.push({
                     join: true
@@ -45,9 +43,7 @@ class ConnManager {
             });
             
         });
-
-
-
+        
     }
 
 }
