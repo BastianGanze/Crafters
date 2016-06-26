@@ -5,7 +5,7 @@ import {Logger} from "../utils/Logger";
 
 var assets : any = [
         {src:"assets/img/test.png", id:"TestImage"},
-        {src:"assets/img/particle.png", id:"particle"},
+        {src:"assets/img/particle.png", id:"none"},
         {src:"assets/img/triangle.png", id:"Triangle"},
         {src:"assets/img/pentagon.png", id:"Pentagon"},
         {src:"assets/img/square.png", id:"Square"},
