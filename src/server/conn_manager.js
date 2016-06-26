@@ -22,7 +22,7 @@ class ConnManager {
             socket.on("join", (data) => {
                 console.info(`Player ${data.name} connected!`);
 
-                socket.playerId = this.playerManager.createPlayer(data.name, socket, new Vector2D(Config.MAP_MARGIN+Config.TILE_SIZE_X, Config.MAP_MARGIN+Config.TILE_SIZE_Y), 16, this.match).id;
+                socket.playerId = this.playerManager.createPlayer(data.name, socket, 16, this.match).id;
                 this.playerManager.players.get(socket.playerId).events.push({
                     join: true
                 });

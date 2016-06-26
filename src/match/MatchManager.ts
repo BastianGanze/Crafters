@@ -34,7 +34,7 @@ export default class MatchManager{
                         this.craftingAreas[i] = new CraftingArea(
                             this.craftingAreaTexture,
                             this.gameRenderer,
-                            new Vector2D(teamData.craftingZone.position.x * Config.TILE_SIZE_X, teamData.craftingZone.position.y * Config.TILE_SIZE_Y),
+                            new Vector2D(teamData.craftingZone.position.x, teamData.craftingZone.position.y),
                             Config.COLOR_NEUTRAL
                         );
                     }

@@ -45,8 +45,17 @@ class Match {
         this.teamCount = 2;
         this.neededResources = Config.CRAFTING_MAX_RESOURCES;
         this.teams = [];
-        this.teamSpawnPoints = [new Vector2D(4, 32), new Vector2D(60, 32)]; //TODO: Spawnpoints more intelligent
-        this.resourceSpawnPoints = [new Vector2D(9, 9), new Vector2D(32, 32), new Vector2D(32, 54)];
+        var marginX = Config.MAP_MARGIN_X*Config.TILE_SIZE_X;
+        var marginY = Config.MAP_MARGIN_Y*Config.TILE_SIZE_Y;
+        var mapSizeX = Config.MAP_SIZE_X*Config.TILE_SIZE_X;
+        var mapSizeY = Config.MAP_SIZE_Y*Config.TILE_SIZE_Y;
+        var spawnMarginX = Config.TILE_SIZE_X*5;
+        var spawnMarginY = Config.TILE_SIZE_Y*5;
+
+        this.teamSpawnPoints = [
+            new Vector2D(marginX+spawnMarginX, marginY+spawnMarginX),
+            new Vector2D(mapSizeX-marginX-spawnMarginX, mapSizeY-marginY-spawnMarginY)];
+        this.resourceSpawnPoints = [new Vector2D(Config.TILE_SIZE_X*9, Config.TILE_SIZE_Y*9), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*32), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_X*54)];
         this.resources = [];
         this.resourceCount = 0;
 
@@ -110,7 +119,7 @@ class Match {
     }
     
     dropResource(player) {
-        console.log("drop res");
+        if (player.inventory.length < 0) { return; }
 
         player.team.resourceStash[player.inventory] += 1;
 
@@ -118,6 +127,11 @@ class Match {
         for (let i = 0; i < this.teams.length; i++) {
             teamData.push(this.teams[i].getAsJson());
         }
+
+        this.io.emit("resource pickup", {
+            player: player.id,
+            resource : "none"
+        });
 
         this.io.emit("resources changed", {
             resources : this.resources,
@@ -148,6 +162,12 @@ class Match {
 
         team.craftingZone.progress = spendSum / neededSum;
         if (team.craftingZone.progress >= 1) {
+            this.winnerTeam = team;
+
+            this.io.emit("game won", {
+                winner : team
+            });
+
             console.log(`Team ${team.id} has won the GAME!`);
         }
 
@@ -155,16 +175,29 @@ class Match {
 
     checkMouseHit(mousePos, player) {
 
-        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y);
 
         for (let i = 0; i < this.resources.length; i++) {
             let res = this.resources[i];
 
             if (playerPos.subVec(res.position).abs() < res.farmRange && mousePos.subVec(res.position).abs() < res.area) {
 
-                console.log("get resource");
                 player.inventory.push(res.type);
                 res.amount -= 1;
+
+                this.io.emit("resource pickup", {
+                    player: player.id,
+                    resource : res.type
+                });
+
+                if (res.amount <= 0) {
+                    this.resources.splice(i, 1);
+
+                    this.io.emit("resources changed", {
+                        resources : this.resources,
+                        teamRedources : teamData
+                    });
+                }
 
             }
         }
@@ -178,6 +211,15 @@ class Match {
             }
         }
 
+    }
+    
+    createResource(resourceType, position) {
+        this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
+
+        this.io.emit("resources changed", {
+            resources : this.resources,
+            teamRedources : teamData
+        });
     }
 
     update(delta) {

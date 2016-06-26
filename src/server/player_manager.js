@@ -79,7 +79,7 @@ class PlayerManager {
         return this.playerCount;
     }
 
-    createPlayer(name, socket, position, radius, match)
+    createPlayer(name, socket, radius, match)
     {
         let team = match.teams[0];
         if (this.redTeamCount > this.blueTeamCount) {
@@ -91,7 +91,7 @@ class PlayerManager {
         }
 
         var uId = this.getUniqueId();
-        let playerCollider = this.world.createPlayerCollider(uId, position, radius);
+        let playerCollider = this.world.createPlayerCollider(uId, team.position, radius);
         let player = new Player(uId, socket, name, team, playerCollider);
 
         this.players.set(uId, player);

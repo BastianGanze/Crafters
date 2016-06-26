@@ -1,6 +1,7 @@
 "use strict";
 
 class Resource {
+    
     constructor(id, position, type, amount)
     {
         this.id = id;
