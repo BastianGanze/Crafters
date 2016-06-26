@@ -70,6 +70,10 @@ export default class Particle{
         this.maxLiveTime /= 50;
     }
 
+    public setSprite(baseTex : PIXI.BaseTexture){
+        this.particleSprite.texture = new PIXI.Texture(baseTex);
+    }
+
     public update(delta: number) : void
     {
         this.liveTime += 16;

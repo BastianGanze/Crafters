@@ -13,9 +13,16 @@ export default class Player{
     private color;
     private isStunned : boolean;
     private team : string;
+    private item : string;
+
+    public setItem(item : string){
+        this.item = item;
+        this.particleEmitter.setSprite(this.item);
+    }
     
     constructor(renderer: GameRenderer, id : string, team : string, color : number | boolean){
 
+        this.item = "none";
         this.team = team;
         this.color = color;
         this.pos = new Vector2D(0, 0);
@@ -23,7 +30,7 @@ export default class Player{
         
         this.id = id;
 
-        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0 ,0), this.color, "particle", 800, 3);
+        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0 ,0), this.color, this.item, 800, 3);
     }
     
     public update(delta : number) : void

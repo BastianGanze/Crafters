@@ -17,7 +17,6 @@ class ResourceManager {
 
     protected resources : Resource[];
 
-
     
     constructor(communicationManager : CommunicationManager, gameRenderer: GameRenderer)
     {
