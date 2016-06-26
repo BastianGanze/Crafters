@@ -83,23 +83,17 @@ class PlayerManager {
         }.bind(this));
 
         this.communicationManager.on("resource pickup", function (data) {
-            if(data.player === this.mainPlayer.getId())
-                this.mainPlayer.setItem(data.resource);
-            else{
-                console.log(data.otherPlayers);
-                for(var i in this.otherPlayers)
-                {
-                    if(data.player === this.otherPlayers[i].getId())
-                        this.otherPlayers[i](data.otherPlayers[i].resources);
-                }
-            }
+            this.mainPlayer.setItem(data.player.resType);
 
+            for(var i in data.otherPlayers)
+            {
+                this.otherPlayers[i].setItem(data.otherPlayers[i].resType);
+            }
         }.bind(this));
     }
     
     public update(delta)
     {
-        
         this.communicationManager.sendEvent('player input', {
             "input" : {
                 "mousePosition": {

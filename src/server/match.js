@@ -133,8 +133,8 @@ class Match {
         player.resType = "none";
 
         this.io.emit("resource pickup", {
-            player: player.id,
-            resource : "none"
+            player: this.playerManager.getPlayerAsJson(player),
+            otherPlayers: this.playerManager.getOtherPlayersAsJson(player)
         });
 
         this.io.emit("resources changed", {
@@ -195,10 +195,10 @@ class Match {
                 res.amount -= 1;
                 
                 player.resType = res.type;
-                
+
                 this.io.emit("resource pickup", {
-                    player: player.id,
-                    resource : res.type
+                    player: PlayerManager.getPlayerAsJson(player),
+                    otherPlayers: this.playerManager.getOtherPlayersAsJson(player)
                 });
 
                 if (res.amount <= 0) {

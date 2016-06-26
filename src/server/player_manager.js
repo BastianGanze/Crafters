@@ -74,6 +74,20 @@ class PlayerManager {
         return players;
     }
 
+    getOtherPlayersAsJson(player)
+    {
+        let players = [];
+        for(let id of this.players.keys())
+        {
+            if(id !== player.id)
+            {
+                players.push(PlayerManager.getPlayerAsJson(players.get(id)));
+            }
+        }
+
+        return players;
+    }
+
     getUniqueId()
     {
         this.playerCount++;

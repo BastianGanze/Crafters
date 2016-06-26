@@ -15,19 +15,17 @@ class Game {
 
         this.io = io;
 
-        this.match = new Match(this.io);
-
         this.world = new World();
         this.world.addCollisionCallback(this.handleCollision.bind(this));
         this.playerManager = new PlayerManager(this.world);
+
+        this.match = new Match(this.io, this.playerManager);
 
         this.connectionManager = new ConnManager(io, this.playerManager, this.match);
         this.connectionManager.listen();
 
         this.mapManager = new MapManager(Config.TILE_SIZE_X, Config.TILE_SIZE_Y, Config.MAP_SIZE_X);
 
-        this.match = new Match(this.io);
-        
         this.update = this.update.bind(this);
 
         this.prevTime = Date.now();
