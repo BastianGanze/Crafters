@@ -217,8 +217,14 @@ class Match {
     createResource(resourceType, position) {
         this.resources.push(new Resource(this.getResourceId(), position, resourceType, 1));
 
+        let teamData = [];
+        for (let i = 0; i < this.teams.length; i++) {
+            teamData.push(this.teams[i].getAsJson());
+        }
+
         this.io.emit("resources changed", {
-            resources : this.resources
+            resources : this.resources,
+            teamRedources : teamData
         });
     }
 
