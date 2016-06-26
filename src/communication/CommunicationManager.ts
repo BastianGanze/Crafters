@@ -56,8 +56,11 @@ class CommunicationManager {
 
         this.socket.on("map data", function (data) {
             this.executeEvent("map data", data);
-        }.bind(this))
+        }.bind(this));
 
+        this.socket.on("match data", function (data) {
+            console.log(data);
+        })
     }
 
     public sendEvent(event : string, data : any)
