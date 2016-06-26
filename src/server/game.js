@@ -23,7 +23,7 @@ class Game {
 
         this.mapManager = new MapManager(64, 64, 16);
 
-        this.match = new Math(this.io);
+        this.match = new Match(this.io);
 
         this.update = this.update.bind(this);
 
