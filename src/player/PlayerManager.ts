@@ -81,7 +81,7 @@ class PlayerManager {
     }
     
     public update(delta)
-    {
+    {//commit
 
         this.communicationManager.sendEvent('player input', {
             "input" : {
