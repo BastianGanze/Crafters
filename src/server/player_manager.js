@@ -84,10 +84,10 @@ class PlayerManager {
         let team = match.teams[0];
         if (this.redTeamCount > this.blueTeamCount) {
             this.blueTeamCount++;
-            team = match.team[0];
+            team = match.teams[0];
         } else {
             this.redTeamCount++;
-            team = match.team[1];
+            team = match.teams[1];
         }
 
         var uId = this.getUniqueId();
