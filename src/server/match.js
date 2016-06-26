@@ -9,6 +9,7 @@ const Resource = require("./resource");
 const Config = require("./config");
 
 class CraftingZone {
+
     constructor(id, position, diameter)
     {
         this.id = id;
@@ -18,6 +19,7 @@ class CraftingZone {
         this.progress = 0;
         this.spendResources = Config.CRAFTING_RESOURCES;
     }
+
 }
 
 class Team {
@@ -82,7 +84,7 @@ class Match {
 
             // initialize crafting Zones
             this.craftingZoneCount++;
-            let currCZ = new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i], Config.CRAFTING_ZONE_WIDTH, Config.CRAFTING_ZONE_DIAMETER);
+            let currCZ = new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i], Config.CRAFTING_ZONE_DIAMETER);
             this.craftingZones.push(currCZ);
 
             this.teams[i].craftingZone = currCZ;
@@ -143,8 +145,6 @@ class Match {
     
     craft(team) {
 
-        console.log("craft");
-
         let spendSum = 0;
         let neededSum = 0;
 
@@ -153,14 +153,20 @@ class Match {
             while (team.resourceStash[res] > 0) {
                 team.resourceStash[res]--;
                 team.craftingZone.spendResources[res]++;
-
-                spendSum += team.craftingZone.spendResources[res];
-                neededSum += this.neededResources[res];
             }
+
+            spendSum += team.craftingZone.spendResources[res];
+            neededSum += this.neededResources[res];
 
         }
 
         team.craftingZone.progress = spendSum / neededSum;
+
+        this.io.emit("crafting progress", {
+            team: team.id,
+            progress: team.craftingZone.progress
+        });
+
         if (team.craftingZone.progress >= 1) {
             this.winnerTeam = team;
 
@@ -170,6 +176,7 @@ class Match {
 
             console.log(`Team ${team.id} has won the GAME!`);
         }
+
 
     }
 
