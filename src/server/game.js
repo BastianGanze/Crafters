@@ -68,7 +68,7 @@ class Game {
 
                         if(currEvent["input"].isRightButtonPressed) {
                             if (!player.isStunned && !(player.inventory.length > 0)) {
-                                const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
+                                const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
                                 this.match.checkMouseHit(mousePos, player);
                             }
                         }
@@ -80,11 +80,14 @@ class Game {
                 }
             }
 
-            let crafting = player.team.craftingZone;
-            let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+            // drop resource when close to base
+            if (player.inventory.length > 0) {
+                let crafting = player.team.craftingZone;
+                let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y);
 
-            if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
-                this.match.dropResource(player);
+                if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
+                    this.match.dropResource(player);
+                }   
             }
 
             player.update(deltaTime);

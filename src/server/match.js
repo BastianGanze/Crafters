@@ -119,6 +119,10 @@ class Match {
             teamData.push(this.teams[i].getAsJson());
         }
 
+        player.socket.emit("resource pickup", {
+            resource : "none"
+        });
+
         this.io.emit("resources changed", {
             resources : this.resources,
             teamRedources : teamData
@@ -161,7 +165,7 @@ class Match {
 
     checkMouseHit(mousePos, player) {
 
-        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y);
 
         for (let i = 0; i < this.resources.length; i++) {
             let res = this.resources[i];
