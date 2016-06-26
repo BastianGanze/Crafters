@@ -82,6 +82,7 @@ class Game {
 
             // drop resource when close to base
             if (player.inventory.length > 0) {
+
                 let crafting = player.team.craftingZone;
                 let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y);
 
