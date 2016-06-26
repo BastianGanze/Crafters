@@ -172,8 +172,6 @@ class Match {
             this.io.emit("game won", {
                 winner : team
             });
-
-            console.log(`Team ${team.id} has won the GAME!`);
         }
 
 
