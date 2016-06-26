@@ -68,13 +68,22 @@ class Game {
 
                         if(currEvent["input"].isRightButtonPressed) {
                             const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
-                            this.match.checkResourceHit(mousePos, player);
+                            this.match.checkMouseHit(mousePos, player);
 
                         }
 
                         if(Math.abs(player.force.x) < 0.001) player.force.x = 0;
                         if(Math.abs(player.force.y) < 0.001) player.force.y = 0;
                         
+                    }
+                }
+
+                for (let i = 0; i < this.match.craftingZones.length; i++) {
+                    let crafting = this.match.craftingZones[i];
+                    let playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+
+                    if (playerPos.subVec(crafting.position).abs() < crafting.dropZone) {
+                        this.match.dropResource(player)
                     }
                 }
             }

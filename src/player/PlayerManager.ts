@@ -7,6 +7,7 @@ import GameRenderer from "../utils/Renderer";
 import Camera from "../utils/Camera";
 import {Input} from "../utils/Input";
 import Vector2D from "../utils/Vector2D";
+import MatchManager from "../match/MatchManager";
 
 var log = Logger("CommunicationManager");
 
@@ -16,12 +17,15 @@ class PlayerManager {
     protected mainPlayerInput : Input.PlayerInput;
     protected otherPlayers : {};
     protected communicationManager : CommunicationManager;
+    protected matchManager : MatchManager;
     protected gameRenderer : GameRenderer;
      protected bla :number;
-    constructor(communicationManager : CommunicationManager, gameRenderer: GameRenderer) {
+    constructor(communicationManager : CommunicationManager, gameRenderer: GameRenderer, matchManager : MatchManager) {
         this.otherPlayers = {};
         this.communicationManager = communicationManager;
         this.gameRenderer = gameRenderer;
+        this.matchManager = matchManager;
+        
         this.mainPlayerInput = new Input.PlayerInput();
         this.bla = 0;
 
@@ -29,7 +33,8 @@ class PlayerManager {
         {
             if(!this.mainPlayer)   
             {
-                this.mainPlayer = new Player(gameRenderer, data.id, data.team, 0x00ff00);
+                this.mainPlayer = new Player(gameRenderer, data.id, data.team, Config.COLOR_ME);
+                this.matchManager.colorTeams(data.team);
             }
             this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             this.mainPlayer.setIsStunned(data.isStunned);
@@ -53,10 +58,10 @@ class PlayerManager {
                 {
                     if(!this.otherPlayers[player.id])
                     {
-                        if(player.getTeam === this.mainPlayer.getTeam)
-                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, 0x0000ff);
+                        if(player.team === this.mainPlayer.getTeam())
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, Config.COLOR_FRIEND);
                         else
-                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, 0xff0000);
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, Config.COLOR_FOE);
                     }
                     
                     this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));
