@@ -65,7 +65,7 @@ class Game {
 
                         if(currEvent["input"].isRightButtonPressed) {
                             const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
-                            this.match.checkResourceHit(mousePos, player);
+                            this.match.checkMouseHit(mousePos, player);
 
                         }
 

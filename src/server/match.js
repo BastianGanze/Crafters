@@ -8,8 +8,9 @@ const Vector2D = require("./utils/vector");
 const Resource = require("./resource");
 
 class CraftingZone {
-    constructor(position, width, height)
+    constructor(id, position, width, height)
     {
+        this.id = id;
         this.position = position;
         this.size = new Vector2D(width, height);
     }
@@ -44,6 +45,9 @@ class Match {
         this.resources = [];
         this.resourceCount = 0;
 
+        this.craftingZoneCount = 0;
+        this.craftingZones = [];
+
         this.setupMatch();
     }
 
@@ -61,6 +65,10 @@ class Match {
             {
                 this.teams[i].resourceStash[resource] = 0;
             }
+
+            // initialize crafting Zones
+            this.craftingZoneCount++;
+            this.craftingZones.push(new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i], ))
         }
 
         for (let i = 0; i < this.resourceSpawnPoints.length; i++) {
@@ -110,7 +118,7 @@ class Match {
 
     }
 
-    checkResourceHit(mousePos, player) {
+    checkMouseHit(mousePos, player) {
 
         const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
 
@@ -124,6 +132,8 @@ class Match {
 
             }
         }
+
+        for (let i = 0; i < this.)
 
     }
 
