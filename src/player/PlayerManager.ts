@@ -29,7 +29,7 @@ class PlayerManager {
         {
             if(!this.mainPlayer)   
             {
-                this.mainPlayer = new Player(gameRenderer, data.id, data.team, 0x00ff00);
+                this.mainPlayer = new Player(gameRenderer, data.id, data.team, true);//0x00ff00
                 this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             }
             else

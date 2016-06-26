@@ -12,7 +12,7 @@ export default class Player{
     private color;
     private team : string;
     
-    constructor(renderer: GameRenderer, id : string, team : string, color : number){
+    constructor(renderer: GameRenderer, id : string, team : string, color : number | boolean){
 
         this.team = team;
         this.color = color;
@@ -21,7 +21,7 @@ export default class Player{
         
         this.id = id;
 
-        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0,0), this.color);
+        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0 ,0), this.color, "particle");
     }
     
     public update(delta : number) : void
