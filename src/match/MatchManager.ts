@@ -90,7 +90,7 @@ export default class MatchManager{
 
         this.communicationManager.on('game won', function(data)
         {
-            console.log(data);
+            
 
         }.bind(this));
 

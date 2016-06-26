@@ -93,8 +93,6 @@ class PlayerManager {
                 }
             }
 
-            console.log(data);
-
         }.bind(this));
     }
     
