@@ -22,7 +22,7 @@ export class Config{
     public static MAP_SIZE_Y: number = 64;
     public static TILE_SIZE_X: number = 32;
     public static TILE_SIZE_Y: number = 32;
-    public static WS_DOMAIN: string = 'http://localhost:61692';
+    public static WS_DOMAIN: string = 'http://gamejam.grimmbart.org/:61692';
     public static COLOR_FRIEND : number = 0x0000ff;
     public static COLOR_FOE : number = 0xff0000;
     public static COLOR_ME : number = 0x00ff00;

@@ -16,7 +16,7 @@ const Config = {
     MAP_MARGIN_X: 8,
     MAP_MARGIN_Y: 8,
     BOUNDARY_SIZE: {x: 32, y: 32},
-    WS_DOMAIN: 'http://localhost:61692',
+    WS_DOMAIN: 'http://gamejam.grimmbart.org/',
     CRAFTING_ZONE_DIAMETER: 36,
     CRAFTING_ZONE_DROP_DIAMETER: 25,
     CRAFTING_MAX_RESOURCES: { "Triangle" : 3, "Square" : 2, "Pentagon" : 1 },
