@@ -50,6 +50,7 @@ export default class Game
     public update(delta : number) : void
     {
         this.playerManager.update(delta);
+        this.recourceManager.update(delta);
         this.map.update();
     }
 
