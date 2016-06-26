@@ -45,8 +45,8 @@ class Match {
         this.teamCount = 2;
         this.neededResources = Config.CRAFTING_MAX_RESOURCES;
         this.teams = [];
-        this.teamSpawnPoints = [new Vector2D(4, 32), new Vector2D(60, 32)]; //TODO: Spawnpoints more intelligent
-        this.resourceSpawnPoints = [new Vector2D(9, 9), new Vector2D(32, 32), new Vector2D(32, 54)];
+        this.teamSpawnPoints = [new Vector2D(Config.MAP_MARGIN_X+5, Config.MAP_MARGIN_Y+5), new Vector2D(Config.MAP_SIZE_X-Config.MAP_MARGIN_X-5, Config.MAP_SIZE_Y-Config.MAP_MARGIN_Y-5)]; //TODO: Spawnpoints more intelligent
+        this.resourceSpawnPoints = [new Vector2D(Config.TILE_SIZE_X*9, Config.TILE_SIZE_Y*9), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*32), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_X*54)];
         this.resources = [];
         this.resourceCount = 0;
 
@@ -110,8 +110,6 @@ class Match {
     }
     
     dropResource(player) {
-        console.log("drop res");
-
         player.team.resourceStash[player.inventory] += 1;
 
         let teamData = [];
