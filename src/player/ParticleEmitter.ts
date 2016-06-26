@@ -20,6 +20,11 @@ export default class ParticleEmitter{
         }
     }
 
+    public setColor(color : number)
+    {
+        this.color = color;
+    }
+
     public update(pos : Vector2D, delta : number) : void
     {
         
