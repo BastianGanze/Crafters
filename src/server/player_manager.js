@@ -14,11 +14,24 @@ class Player {
         this.force = new Vector2D(0,0);
         this.socket = socket;
         this.events = [];
+        this.stunnedTimer = 0;
+        this.stunnedTime = 2000;
+        this.isStunned = false;
     }
 
     update(delta)
     {
         this.collisionObject.force = this.force.multSkalar(delta/1000);
+
+        if(this.isStunned)
+        {
+            this.stunnedTimer += delta;
+            if(this.stunnedTimer > this.stunnedTime)
+            {
+                this.isStunned = false;
+                this.stunnedTimer = 0;
+            }
+        }
     }
 }
 
@@ -83,6 +96,11 @@ class PlayerManager {
         this.players.set(uId, player);
 
         return player;
+    }
+
+    getPlayer(playerId)
+    {
+        return this.players.get(playerId);
     }
 
     removePlayer(player)

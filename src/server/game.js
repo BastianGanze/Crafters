@@ -6,6 +6,7 @@ const World = require("./world");
 const PlayerManager = require("./player_manager");
 const Vector2D = require("./utils/vector");
 const Match = require("./match");
+const Matter = require('../../libs/matter');
 
 class Game {
 
@@ -14,21 +15,7 @@ class Game {
         this.io = io;
 
         this.world = new World();
-        this.world.addCollisionCallback((c1, c2) => {
-            let diffVec = c1.force.subVec(c2.force);
-
-            c1.velocity = c1.velocity.multSkalar(-1);
-            c1.force = c1.force.multSkalar(-1);
-
-            c2.velocity = c2.velocity.multSkalar(-1);
-            c2.force = c2.force.multSkalar(-1);
-
-            // c1.force = c1.force.addVec(c2.velocity.multSkalar().multSkalar(0.1));
-            // c2.force = c2.force.addVec(diffVec.multSkalar(-0.1));
-
-            c1.collided = true;
-            c2.collided = true;
-        });
+        this.world.addCollisionCallback(this.handleCollision.bind(this));
         this.playerManager = new PlayerManager(this.world);
 
         this.connectionManager = new ConnManager(io, this.playerManager);
@@ -67,11 +54,13 @@ class Game {
 
                     if (event === "input") {
                         if (currEvent["input"].isLeftButtonPressed) {
-                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
-                            if(Math.abs(player.force.abs()) < 10)
-                                player.force = player.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
-                            else
-                                player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
+                            if(!player.isStunned) {
+                                const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
+                                if (Math.abs(player.force.abs()) < 10)
+                                    player.force = player.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
+                                else
+                                    player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
+                            }
                         } else {
                             player.force = player.force.addVec(player.force.multSkalar(-0.1));
                         }
@@ -106,6 +95,44 @@ class Game {
             this.update();
         } else {
             setTimeout(this.update, 16 - frameTime);
+        }
+    }
+    
+    handleCollision(collisionObect)
+    {
+        let bodyA = collisionObect.bodyA,
+            bodyB = collisionObect.bodyB;
+
+         if(bodyA.collisionFilter.group == 2 && bodyB.collisionFilter.group == 2)
+         {
+            this.handlePlayerCollision(bodyA, bodyB, collisionObect);    
+         }
+    }
+    
+    handlePlayerCollision(bodyA, bodyB, collisionObject)
+    {
+        let relativeVelocityA, relativeVelocityB, playerAId, playerBId, playerA, playerB;
+        
+            playerAId = this.world.getPlayerIdForCollisionObject(bodyA.id), 
+            playerBId = this.world.getPlayerIdForCollisionObject(bodyB.id);
+        
+        playerA = this.playerManager.getPlayer(playerAId);
+        playerB = this.playerManager.getPlayer(playerBId);
+        
+        relativeVelocityA = Matter.Vector.sub(bodyA.velocity, bodyB.velocity);
+        relativeVelocityB = Matter.Vector.sub(bodyA.velocity, bodyB.velocity);
+
+        console.log("A"+Matter.Vector.magnitude(relativeVelocityA));
+        console.log("B"+Matter.Vector.magnitude(relativeVelocityB));
+
+        if(Matter.Vector.magnitude(relativeVelocityA) > 5)
+        {
+            playerB.isStunned = true;
+        }
+
+        if(Matter.Vector.magnitude(relativeVelocityB) > 5)
+        {
+            playerA.isStunned = true;
         }
     }
 
