@@ -34,7 +34,7 @@ class PlayerManager {
             if(!this.mainPlayer)   
             {
                 this.mainPlayer = new Player(gameRenderer, data.id, data.team, Config.COLOR_ME);
-                this.matchManager.colorTeams(data.team);
+                this.matchManager.setMainPlayerTeam(data.team.id);
             }
             this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             this.mainPlayer.setIsStunned(data.isStunned);
