@@ -33,8 +33,8 @@ class PlayerManager {
         {
             if(!this.mainPlayer)   
             {
-                this.mainPlayer = new Player(gameRenderer, data.id, data.team, Config.COLOR_ME);
-                this.matchManager.colorTeams(data.team);
+                this.mainPlayer = new Player(gameRenderer, data.id, data.team.id, Config.COLOR_ME);
+                this.matchManager.setMainPlayerTeam(data.team.id);
             }
             this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             this.mainPlayer.setIsStunned(data.isStunned);
@@ -58,10 +58,10 @@ class PlayerManager {
                 {
                     if(!this.otherPlayers[player.id])
                     {
-                        if(player.team === this.mainPlayer.getTeam())
-                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, Config.COLOR_FRIEND);
+                        if(player.team.id === this.mainPlayer.getTeam())
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team.id, Config.COLOR_FRIEND);
                         else
-                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team, Config.COLOR_FOE);
+                            this.otherPlayers[player.id] = new Player(gameRenderer, player.id, player.team.id, Config.COLOR_FOE);
                     }
                     
                     this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));

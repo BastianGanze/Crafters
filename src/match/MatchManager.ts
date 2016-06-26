@@ -12,12 +12,14 @@ export default class MatchManager{
     protected communicationManager : CommunicationManager;
     protected gameRenderer : GameRenderer;
     protected craftingAreaTexture : PIXI.BaseTexture;
+    protected mainPlayerTeam : number;
 
     constructor(communicationManager : CommunicationManager, gameRenderer : GameRenderer)
     {
         this.communicationManager = communicationManager;
         this.gameRenderer = gameRenderer;
         this.craftingAreas = {};
+        this.mainPlayerTeam = null;
         this.craftingAreaTexture = new PIXI.BaseTexture(<HTMLImageElement> AssetLoader.getContent("CraftingArea"));
         this.communicationManager.on('match data', function(data)
         {
@@ -39,16 +41,26 @@ export default class MatchManager{
                 }
             }
 
+            if(this.mainPlayerTeam)
+            {
+                this.colorTeams();
+            }
+
         }.bind(this));
     }
 
-    public colorTeams(team : number)
+    public setMainPlayerTeam(team : number)
+    {
+        this.mainPlayerTeam = team;
+        this.colorTeams();
+    }
+
+    public colorTeams()
     {
         var keys = Object.keys(this.craftingAreas), i;
         for(i = 0; i < keys.length; i++)
         {
-            console.log(i, team);
-            if(i == team)
+            if(i == this.mainPlayerTeam)
             {   this.craftingAreas[keys[i]].setColor(Config.COLOR_FRIEND);
 
             }

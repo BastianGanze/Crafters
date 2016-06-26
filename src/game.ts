@@ -9,6 +9,7 @@ import Map from "./map/Map";
 import PlayerManager from "./player/PlayerManager";
 import Vector2D from "./utils/Vector2D";
 import MatchManager from "./match/MatchManager";
+import RecourceManager from "./resources/ResourceManager"
 
 var log = Logger("Game");
 
@@ -21,6 +22,7 @@ export default class Game
     private communicationManager : CommunicationManager;
     private matchManager : MatchManager;
     private playerManager : PlayerManager;
+    private recourceManager : RecourceManager;
 
     constructor()
     {
@@ -36,6 +38,8 @@ export default class Game
 
         this.playerManager = new PlayerManager(this.communicationManager, this.gameRenderer, this.matchManager);
 
+        this.recourceManager = new RecourceManager(this.communicationManager, this.gameRenderer);
+
         this.communicationManager.on('player data', function(data)
         {
             Camera.setCameraPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
@@ -50,6 +54,7 @@ export default class Game
     public update(delta : number) : void
     {
         this.playerManager.update(delta);
+        this.recourceManager.update(delta);
         this.matchManager.update(delta);
         this.map.update();
     }

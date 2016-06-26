@@ -16,15 +16,19 @@ export default class Particle{
     private move : Vector2D;
 
     private liveTime : number;
-    private maxLiveTime : number = 800;
+    private maxLiveTime : number;
 
     private toDelete : boolean;
 
     private renderer : GameRenderer;
+    
+    private emittingRadius : number;
 
     private color;
 
-    constructor(renderer: GameRenderer, pos : Vector2D, color : number | boolean, baseTexture : PIXI.BaseTexture){
+    constructor(renderer: GameRenderer, pos : Vector2D, color : number | boolean, baseTexture : PIXI.BaseTexture, maxTime : number, emittingRadius : number){
+        this.emittingRadius = emittingRadius;
+        this.maxLiveTime = maxTime;
         this.baseTexture = baseTexture;
         this.particleSprite = new PIXI.Sprite(new PIXI.Texture(this.baseTexture));
         this.offset = new Vector2D(this.particleSprite.width / 2, this.particleSprite.height / 2);
@@ -57,8 +61,8 @@ export default class Particle{
         renderer.addToMainContainer(this.particleSprite);
 
         this.move = new Vector2D(0,0);
-        this.move.x =  Math.cos(Math.PI * 2 * r);
-        this.move.y =  Math.sin(Math.PI * 2 * r);
+        this.move.x =  this.emittingRadius * Math.cos(Math.PI * 2 * r);
+        this.move.y =  this.emittingRadius * Math.sin(Math.PI * 2 * r);
 
         this.toDelete = false;
 
@@ -74,6 +78,9 @@ export default class Particle{
             this.toDelete = true;
         }
 
+        if(!this || !this.pos || !this.pos.add) debugger;
+
+        this.pos = new Vector2D(this.pos.x + this.move.x, this.pos.y + this.move.y);
         Utils.setSpriteViewportPos(this.particleSprite, this.pos);
 
         this.particleSprite.alpha *= (15/16);
