@@ -60,7 +60,6 @@ class PlayerManager {
                     }
                     
                     this.otherPlayers[player.id].setPosition(new Vector2D(player.physProps.position.x, player.physProps.position.y));
-                    this.otherPlayers[player.id].setIsStunned(player.isStunned);
                     this.otherPlayers[player.id].playerUpdated = true;
                 }
 

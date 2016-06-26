@@ -15,17 +15,19 @@ class Game {
 
         this.io = io;
 
+        this.match = new Match(this.io);
+
         this.world = new World();
         this.world.addCollisionCallback(this.handleCollision.bind(this));
         this.playerManager = new PlayerManager(this.world);
 
-        this.connectionManager = new ConnManager(io, this.playerManager);
+        this.connectionManager = new ConnManager(io, this.playerManager, this.match);
         this.connectionManager.listen();
 
         this.mapManager = new MapManager(Config.TILE_SIZE_X, Config.TILE_SIZE_Y, Config.MAP_SIZE_X);
 
         this.match = new Match(this.io);
-
+        
         this.update = this.update.bind(this);
 
         this.prevTime = Date.now();
@@ -62,6 +64,12 @@ class Game {
                                 player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
                         } else {
                             player.force = player.force.addVec(player.force.multSkalar(-0.1));
+                        }
+
+                        if(currEvent["input"].isRightButtonPressed) {
+                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y).divSkalar(32);
+                            this.match.checkResourceHit(mousePos, player);
+
                         }
 
                         if(Math.abs(player.force.x) < 0.001) player.force.x = 0;
