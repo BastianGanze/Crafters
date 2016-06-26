@@ -5,10 +5,13 @@ const MapManager = require("./map_manager");
 const World = require("./world");
 const PlayerManager = require("./player_manager");
 const Vector2D = require("./utils/vector");
+const Match = require("./match");
 
 class Game {
 
     constructor(io) {
+
+        this.io = io;
 
         this.world = new World();
         this.world.addCollisionCallback((c1, c2) => {
@@ -33,6 +36,8 @@ class Game {
 
         this.mapManager = new MapManager(64, 64, 16);
 
+        this.match = new Math(this.io);
+
         this.update = this.update.bind(this);
 
         this.prevTime = Date.now();
@@ -53,6 +58,10 @@ class Game {
                     if (event === "join") {
                         player.socket.emit("map data", {
                             map: this.mapManager.map
+                        });
+
+                        this.io.emit("match data", {
+                           match: this.match.getAsJson()
                         });
                     }
 
@@ -87,6 +96,8 @@ class Game {
         }
 
         this.world.update(deltaTime);
+
+        this.match.update(deltaTime);
 
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
