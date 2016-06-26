@@ -7,8 +7,11 @@ import Utils from "../utils/Utils";
 export default class Particle{
 
     private particleSprite : PIXI.Sprite;
+    private baseTexture : PIXI.BaseTexture;
 
     private pos : Vector2D;
+    private offset : Vector2D
+
 
     private move : Vector2D;
 
@@ -19,16 +22,33 @@ export default class Particle{
 
     private renderer : GameRenderer;
 
-    private color : number;
+    private color;
 
-    constructor(renderer: GameRenderer, pos : Vector2D, color : number){
-        var element : HTMLImageElement = <HTMLImageElement> AssetLoader.getContent("particle");
-        this.particleSprite = new PIXI.Sprite(new PIXI.Texture(new PIXI.BaseTexture(element)));
+    constructor(renderer: GameRenderer, pos : Vector2D, color : number | boolean, baseTexture : PIXI.BaseTexture){
+        this.baseTexture = baseTexture;
+        this.particleSprite = new PIXI.Sprite(new PIXI.Texture(this.baseTexture));
+        this.offset = new Vector2D(this.particleSprite.width / 2, this.particleSprite.height / 2);
         this.renderer = renderer;
-        this.particleSprite.tint = color;//'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+        if(typeof color == "number"){
+            this.color = color;
+            this.particleSprite.tint = this.color;//'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+        }
+        if(typeof color == "boolean"){
+            this.color = color;
+            console.log(this.color);
+            if(this.color){
+                //this.particleSprite.tint = Math.random() * 0xffffff;
+                var r = Math.random() * 0xff0000;
+                var g = Math.random() * 0x00ff00;
+                var b = Math.random() * 0x0000ff;
+                this.particleSprite.tint = r + g + b;
+            }
+
+        }
+        
         var r = Math.random() * 10;
         
-        this.pos = pos;
+        this.pos = new Vector2D(pos.x - this.offset.x, pos.y - this.offset.y);;
 
         this.liveTime = 0;
 

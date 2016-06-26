@@ -30,12 +30,9 @@ class PlayerManager {
             if(!this.mainPlayer)   
             {
                 this.mainPlayer = new Player(gameRenderer, data.id, data.team, 0x00ff00);
-                this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
             }
-            else
-            {
-                this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
-            }
+            this.mainPlayer.setPosition(new Vector2D(data.physProps.position.x, data.physProps.position.y));
+            this.mainPlayer.setIsStunned(data.isStunned);
         }.bind(this));
 
         this.communicationManager.on('other player data', function(data)

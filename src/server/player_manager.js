@@ -15,7 +15,7 @@ class Player {
         this.socket = socket;
         this.events = [];
         this.stunnedTimer = 0;
-        this.stunnedTime = 2000;
+        this.stunnedTime = 1000;
         this.isStunned = false;
         this.inventory = [];
     }
@@ -51,7 +51,7 @@ class PlayerManager {
     static getPlayerAsJson(player)
     {
         if(player.collisionObject) {
-            return {"id":player.id, "name":player.name, "team":player.team, "physProps":{"position": player.collisionObject.position}};
+            return {"id":player.id, "name":player.name, "team":player.team, "isStunned": player.isStunned, "physProps":{"position": player.collisionObject.position}};
         }
         else {
             console.log("Could not get collision information from player, collisionObject was of Type \""+typeof player.collisionObject+"\"");
