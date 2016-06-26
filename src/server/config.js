@@ -20,7 +20,10 @@ const Config = {
     CRAFTING_ZONE_DIAMETER: 16,
     CRAFTING_ZONE_DROP_DIAMETER: 20,
     CRAFTING_MAX_RESOURCES: { "Triangle" : 3, "Square" : 2, "Pentagon" : 1 },
-    CRAFTING_RESOURCES: { "Triangle" : 0, "Square" : 0, "Pentagon" : 0 }
+    CRAFTING_RESOURCES: { "Triangle" : 0, "Square" : 0, "Pentagon" : 0 },
+
+    RESOURCE_AREA: 32,
+    RESOURCE_FARM_AREA: 64
     
 };
 

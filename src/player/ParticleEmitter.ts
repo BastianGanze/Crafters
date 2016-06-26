@@ -8,13 +8,13 @@ export default class ParticleEmitter{
     private baseTexture : PIXI.BaseTexture;
     private particles : Particle[];
     private renderer : GameRenderer;
-    private particleCount : number = 50;
+    private particleCount : number;
     private color : number | boolean;
     private maxTime : number;
     private emittingRadius : number;
     private pos : Vector2D;
 
-    constructor(renderer: GameRenderer, pos : Vector2D, color : number | boolean, texturePath : string, maxTime : number, emitingRadius : number)
+    constructor(renderer: GameRenderer, pos : Vector2D, color : number | boolean, texturePath : string, maxTime : number, emitingRadius : number, particleCount? : number)
     {
         this.pos = pos;
         this.emittingRadius = emitingRadius;
@@ -24,6 +24,8 @@ export default class ParticleEmitter{
         this.color = color;
         this.renderer = renderer;
         this.maxTime = maxTime;
+        if(particleCount) this.particleCount = particleCount; else this.particleCount = 50;
+
         for(var i = 0; i < this.particleCount; i ++){
             this.particles[i] = new Particle(renderer, pos, this.color, this.baseTexture, this.maxTime, this.emittingRadius);
         }
