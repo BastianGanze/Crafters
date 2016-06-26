@@ -45,7 +45,16 @@ class Match {
         this.teamCount = 2;
         this.neededResources = Config.CRAFTING_MAX_RESOURCES;
         this.teams = [];
-        this.teamSpawnPoints = [new Vector2D(Config.MAP_MARGIN_X+5, Config.MAP_MARGIN_Y+5), new Vector2D(Config.MAP_SIZE_X-Config.MAP_MARGIN_X-5, Config.MAP_SIZE_Y-Config.MAP_MARGIN_Y-5)]; //TODO: Spawnpoints more intelligent
+        var marginX = Config.MAP_MARGIN_X*Config.TILE_SIZE_X;
+        var marginY = Config.MAP_MARGIN_Y*Config.TILE_SIZE_Y;
+        var mapSizeX = Config.MAP_SIZE_X*Config.TILE_SIZE_X;
+        var mapSizeY = Config.MAP_SIZE_Y*Config.TILE_SIZE_Y;
+        var spawnMarginX = Config.TILE_SIZE_X*5;
+        var spawnMarginY = Config.TILE_SIZE_Y*5;
+
+        this.teamSpawnPoints = [
+            new Vector2D(marginX+spawnMarginX, marginY+spawnMarginX),
+            new Vector2D(mapSizeX-marginX-spawnMarginX, mapSizeY-marginY-spawnMarginY)];
         this.resourceSpawnPoints = [new Vector2D(Config.TILE_SIZE_X*9, Config.TILE_SIZE_Y*9), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_Y*32), new Vector2D(Config.TILE_SIZE_X*32, Config.TILE_SIZE_X*54)];
         this.resources = [];
         this.resourceCount = 0;
@@ -161,7 +170,7 @@ class Match {
 
     checkMouseHit(mousePos, player) {
 
-        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(32);
+        const playerPos = new Vector2D(player.collisionObject.position.x, player.collisionObject.position.y).divSkalar(Config.TILE_SIZE_X);
 
         for (let i = 0; i < this.resources.length; i++) {
             let res = this.resources[i];
