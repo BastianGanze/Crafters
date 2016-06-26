@@ -32,6 +32,17 @@ class ResourceManager {
             }
             
          }.bind(this));
+
+        this.communicationManager.on('resources changed', function(data){
+            for(var i in this.resources)
+            {
+                this.resources[i].destroy();
+            }
+            for(var i in data.match.resources)
+            {
+                this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
+            }
+        }.bind(this));
     }
 
     
@@ -41,16 +52,6 @@ class ResourceManager {
         {
             this.resources[i].update(delta);
         }
-        this.communicationManager.on('resources changed', function(data){
-            for(var i in this.resources)
-            {
-                this.resources[i].destrox();
-            }
-            for(var i in data.match.resources)
-            {
-                this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
-            }
-        }.bind(this));
     }
 
 
