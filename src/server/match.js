@@ -104,10 +104,8 @@ class Match {
         }
 
         for (let i = 0; i < this.resourceSpawnPoints.length; i++) {
-            if (i == 0) {
-                this.resources.push(new Resource(this.resourceSpawnPoints[i].addScalar(Math.floor(Math.random() * 20))),
-                    Resource.getResourceType(i), 10);
-            }
+                this.resources.push(new Resource(this.resourceSpawnPoints[i].addScalar(Math.floor(Math.random() * 20)),
+                    Resource.getResourceType(i), 10));
         }
 
     }
@@ -124,7 +122,7 @@ class Match {
     getAsJson() {
         let allTeams = [];
         for(let i = 0; i < this.teams.length; i++) {
-            resourceStashAllTeams.push(this.teams[i]);
+            allTeams.push(this.teams[i]);
         }
 
         return { "resources" : this.resources, "teamSpawns" : this.teamSpawnPoints, "teamData" : allTeams };
