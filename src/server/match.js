@@ -23,9 +23,10 @@ class CraftingZone {
 class Team {
 
     constructor(teamPosition, id) {
+        this.id = id;
         this.position = teamPosition;
         this.resourceStash = {};
-        this.craftingZone = new CraftingZone(teamPosition, 64, 64);
+        this.craftingZone = null;
     }
 
     getAsJson() {
@@ -72,8 +73,10 @@ class Match {
 
             // initialize crafting Zones
             this.craftingZoneCount++;
-            this.craftingZones.push(new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i],
-                Config.CRAFTING_ZONE_WIDTH, Config.CRAFTING_ZONE_DIAMETER));
+            let currCZ = new CraftingZone(this.craftingZoneCount, this.teamSpawnPoints[i], Config.CRAFTING_ZONE_WIDTH, Config.CRAFTING_ZONE_DIAMETER);
+            this.craftingZones.push(currCZ);
+
+            this.teams[i].craftingZone = currCZ;
         }
 
         for (let i = 0; i < this.resourceSpawnPoints.length; i++) {
