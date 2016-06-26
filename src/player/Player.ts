@@ -23,7 +23,7 @@ export default class Player{
         
         this.id = id;
 
-        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0 ,0), this.color, "particle");
+        this.particleEmitter = new ParticleEmitter(renderer, new Vector2D(0 ,0), this.color, "particle", 800, 3);
     }
     
     public update(delta : number) : void
