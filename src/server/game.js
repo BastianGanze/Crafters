@@ -44,14 +44,12 @@ class Game {
                     }
 
                     if (event === "input") {
-                        if (currEvent["input"].isLeftButtonPressed) {
-                            if(!player.isStunned) {
-                                const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
-                                if (Math.abs(player.force.abs()) < 10)
-                                    player.force = player.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
-                                else
-                                    player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
-                            }
+                        if (currEvent["input"].isLeftButtonPressed && !player.isStunned) {
+                            const mousePos = new Vector2D(currEvent["input"].mousePosition.x, currEvent["input"].mousePosition.y);
+                            if (Math.abs(player.force.abs()) < 10)
+                                player.force = player.force.addVec(mousePos.subVec(player.collisionObject.position).norm());
+                            else
+                                player.force = mousePos.subVec(player.collisionObject.position).norm().multSkalar(10);
                         } else {
                             player.force = player.force.addVec(player.force.multSkalar(-0.1));
                         }
@@ -100,7 +98,7 @@ class Game {
     
     handlePlayerCollision(bodyA, bodyB, collisionObject)
     {
-        let relativeVelocityA, relativeVelocityB, playerAId, playerBId, playerA, playerB;
+        let relativeVelocity, relativeVelocityB, playerAId, playerBId, playerA, playerB, forceToA, forceToB;
         
             playerAId = this.world.getPlayerIdForCollisionObject(bodyA.id), 
             playerBId = this.world.getPlayerIdForCollisionObject(bodyB.id);
@@ -108,21 +106,23 @@ class Game {
         playerA = this.playerManager.getPlayer(playerAId);
         playerB = this.playerManager.getPlayer(playerBId);
         
-        relativeVelocityA = Matter.Vector.sub(bodyA.velocity, bodyB.velocity);
-        relativeVelocityB = Matter.Vector.sub(bodyA.velocity, bodyB.velocity);
+        relativeVelocity = Matter.Vector.add(bodyA.velocity, bodyB.velocity);
 
-        console.log("A"+Matter.Vector.magnitude(relativeVelocityA));
-        console.log("B"+Matter.Vector.magnitude(relativeVelocityB));
+        forceToA = Matter.Vector.sub(bodyA.velocity, relativeVelocity);
+        forceToB = Matter.Vector.sub(bodyB.velocity, relativeVelocity);
 
-        if(Matter.Vector.magnitude(relativeVelocityA) > 5)
-        {
-            playerB.isStunned = true;
-        }
-
-        if(Matter.Vector.magnitude(relativeVelocityB) > 5)
+        if(Matter.Vector.magnitude(forceToA) > 5)
         {
             playerA.isStunned = true;
+            console.log("Player A stunned!");
         }
+
+        if(Matter.Vector.magnitude(forceToB) > 5)
+        {
+            playerB.isStunned = true;
+            console.log("Player B stunned!");
+        }
+
     }
 
 }
