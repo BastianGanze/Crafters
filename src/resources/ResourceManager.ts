@@ -33,15 +33,7 @@ class ResourceManager {
          }.bind(this));
 
         this.communicationManager.on('resources changed', function(data){
-            for(var i in this.resources)
-            {
-                this.resources[i].destroy();
-            }
 
-            for(var i in data.resources)
-            {
-                this.resources[i] = new Resource(this.gameRenderer, data.resources[i].position, data.resources[i].type);
-            }
         }.bind(this));
     }
 

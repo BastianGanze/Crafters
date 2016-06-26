@@ -134,6 +134,7 @@ class Match {
             resource : "none"
         });
 
+        console.log("Before resource emit in dropResource");
         this.io.emit("resources changed", {
             resources : this.resources,
             teamResources : teamData
@@ -201,7 +202,7 @@ class Match {
                     for (let i = 0; i < this.teams.length; i++) {
                         teamData.push(this.teams[i].getAsJson());
                     }
-
+                    console.log("Before resource emit in checkMouseHit");
                     this.io.emit("resources changed", {
                         resources : this.resources,
                         teamResources : teamData
@@ -230,6 +231,7 @@ class Match {
             teamData.push(this.teams[i].getAsJson());
         }
 
+        console.log("Before resource emit in createResource");
         this.io.emit("resources changed", {
             resources : this.resources,
             teamResources : teamData

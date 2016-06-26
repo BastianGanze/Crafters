@@ -40,9 +40,7 @@ export default class Recource{
     
     public update(delta : number){
         Utils.setSpriteViewportPos(this.recourceSprite, new Vector2D(this.pos.x - this.offset.x, this.pos.y - this.offset.y));
-        this.gameRenderer.removeFromMainContainer(this.recourceSprite);
         this.particleEmitter.update(this.particleEmitter.getPosition(), delta);
-        this.gameRenderer.addToMainContainer(this.recourceSprite);
     }
     
     public getPosition() : Vector2D
