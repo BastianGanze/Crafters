@@ -23,12 +23,12 @@ class ResourceManager {
     {
         this.communicationManager = communicationManager;
         this.gameRenderer = gameRenderer;
-        this.resources = [];
         this.communicationManager.on('match data', function(data){
-            for(var i in data.match.resources)
-            {
-                console.log(data.match.resources[i].type);
-               this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
+            if(!this.resources) {
+                this.resources = [];
+                for (var i in data.match.resources) {
+                    this.resources[i] = new Resource(this.gameRenderer, data.match.resources[i].position, data.match.resources[i].type);
+                }
             }
             
          }.bind(this));
