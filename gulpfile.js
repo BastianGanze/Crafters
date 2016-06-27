@@ -39,4 +39,13 @@ gulp.task("server", ["transpile"],  function () {
    });
 });
 
+gulp.task("server-only",  function () {
+    return nodemon({
+        script: "src/server/main.js",
+        ext: 'js'
+    }).once('quit', function(){
+        process.exit();
+    });
+});
+
 gulp.task('default', ['transpile']);
