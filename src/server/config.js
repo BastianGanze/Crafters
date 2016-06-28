@@ -18,6 +18,7 @@ const Config = {
     BOUNDARY_SIZE: {x: 32, y: 32},
     WS_DOMAIN: 'http://gamejam.grimmbart.org:61692',
     CRAFTING_ZONE_DIAMETER: 36,
+    FRAME_TIME: 1000/60,
     CRAFTING_ZONE_DROP_DIAMETER: 25,
     CRAFTING_MAX_RESOURCES: { "Triangle" : 3, "Square" : 2, "Pentagon" : 1 },
     CRAFTING_RESOURCES: { "Triangle" : 0, "Square" : 0, "Pentagon" : 0 },

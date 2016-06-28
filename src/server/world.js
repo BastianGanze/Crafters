@@ -75,9 +75,6 @@ class World {
 
         Matter.Engine.update(this.engine, delta);
 
-
-
-
         // for (let colliderId of this.collisionObjects.keys()) {
         //     let collider = this.collisionObjects.get(colliderId);
         //
@@ -119,7 +116,14 @@ class World {
     }
 
     update(delta) {
-        this.updatePhysicStep(delta);
+        var bla = delta;
+        while(bla > Config.FRAME_TIME)
+        {
+            this.updatePhysicStep(Config.FRAME_TIME);
+            bla -= Config
+        }
+        this.updatePhysicStep(bla);
+
     }
     
     addCollisionCallback(callback) {

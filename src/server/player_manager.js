@@ -23,7 +23,7 @@ class Player {
 
     update(delta)
     {
-        this.collisionObject.force = this.force.multSkalar(delta/1000);
+        this.collisionObject.force = this.force.multSkalar((1/delta)/2);
 
         if(this.isStunned)
         {

@@ -110,10 +110,10 @@ class Game {
         const afterTime = Date.now();
         let frameTime = afterTime - beforeTime;
         this.prevTime = beforeTime;
-        if (frameTime > 16) {
+        if (frameTime > Config.FRAME_TIME) {
             this.update();
         } else {
-            setTimeout(this.update, 16 - frameTime);
+            setTimeout(this.update, Config.FRAME_TIME - frameTime);
         }
     }
     

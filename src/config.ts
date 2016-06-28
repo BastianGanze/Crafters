@@ -27,7 +27,7 @@ export class Config{
     public static COLOR_FOE : number = 0x8b0000;//0xff0000;
     public static COLOR_ME : number = 0x008b00//0x00ff00;
     public static COLOR_NEUTRAL : number = 0xFFFFFF//0x00ff00;
-    public static WS_DOMAIN: string = 'ws://crafters.wannabecoder.de';
+    public static WS_DOMAIN: string = 'http://localhost:61692';
 
 
 }
