@@ -112,7 +112,7 @@ class Game {
         let frameTime = afterTime - beforeTime;
         this.prevTime = beforeTime;
         if (frameTime > Config.FRAME_TIME) {
-            fs.appendFile('src/server/log/warn.log', 'Frame took longer than '+Config.FRAME_TIME+'ms! "'+frameTime+'"', function(err){});
+            console.log('Frame took longer than '+Config.FRAME_TIME+'ms! "'+frameTime+'"');
             this.update();
         } else {
             setTimeout(this.update, Config.FRAME_TIME - frameTime);
