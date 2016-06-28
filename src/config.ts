@@ -23,7 +23,7 @@ export class Config{
     public static TILE_SIZE_X: number = 32;
     public static TILE_SIZE_Y: number = 32;
    // public static WS_DOMAIN: string = 'http://localhost:3000';
-    public static COLOR_FRIEND : number = 0x00008b;//0x0000ff;
+    public static COLOR_FRIEND : number = 0x00008c;//0x0000ff;
     public static COLOR_FOE : number = 0x8b0000;//0xff0000;
     public static COLOR_ME : number = 0x008b00//0x00ff00;
     public static COLOR_NEUTRAL : number = 0xFFFFFF//0x00ff00;
