@@ -8,6 +8,7 @@ const Vector2D = require("./utils/vector");
 const Match = require("./match");
 const Matter = require('../../libs/matter');
 const Config = require('./config');
+const fs = require('fs');
 
 class Game {
 
@@ -111,6 +112,7 @@ class Game {
         let frameTime = afterTime - beforeTime;
         this.prevTime = beforeTime;
         if (frameTime > Config.FRAME_TIME) {
+            fs.appendFile('src/server/log/warn.log', 'Frame took longer than '+Config.FRAME_TIME+'ms! "'+frameTime+'"', function(err){});
             this.update();
         } else {
             setTimeout(this.update, Config.FRAME_TIME - frameTime);
